@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //1. create tab layout and view pager2 in main xml
-        //2. create a fragment and make it relative layout
 
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
