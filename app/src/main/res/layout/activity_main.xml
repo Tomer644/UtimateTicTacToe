@@ -11,13 +11,15 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+<!--        android:background="#0002ba"-->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-<!--        android:background="#0002ba"-->
+<!--        android:background="#5e38ee"-->
+
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
