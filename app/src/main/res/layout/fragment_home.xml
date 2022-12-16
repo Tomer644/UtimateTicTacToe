@@ -73,6 +73,7 @@
         android:layout_width="134dp"
         android:layout_height="69dp"
         android:text="play"
+        android:onClick="play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
