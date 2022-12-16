@@ -54,4 +54,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
+
+    public void play(View view) {
+        /* update db for:
+        * win
+        * lose
+        * buy skin
+         */
+    }
 }
