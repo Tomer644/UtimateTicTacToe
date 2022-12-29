@@ -12,14 +12,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DBNAME = "login.db";
 
+    private static final String TABLE_NAME = "users";
+
     public DBHelper(Context context) {
-        super(context, "login.db", null, 1);
+        super(context, DBNAME, null, 1);
     }
 
     //creates the table with the key
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table users (username TEXT primary key, password TEXT)");
+        db.execSQL("create table "+TABLE_NAME+" (username TEXT primary key, password TEXT, trophies INTEGER)");
 
     }
 
@@ -36,8 +38,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put("username",username);
         values.put("password",password);
+        values.put("trophies", 0);
 
-        long result= db.insert("users ",null, values);
+        long result= db.insert(TABLE_NAME,null, values);
         if(result==-1)
             return false;
         else
@@ -62,6 +65,42 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    /* update db for:
+     * win
+     * lose
+     * buy skin
+     */
+    final static int WIN = 1;
+    final static int TIE = 0;
+    final static int LOSE = -1;
+    public int updateData(String username, int trophiesGot)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME+" WHERE username=?", new String[] {username});
+        //cursor.moveToFirst();
+        //int i = cursor.getColumnIndex("trophies");
+        int total = 0;
+        if(cursor != null && cursor.moveToFirst()) {
+            int i = cursor.getColumnIndex("trophies");
+            total = cursor.getInt(i) + trophiesGot;
+            cursor.close();
+            return -1;
+        }
+        //int total = cursor.getInt(i) + trophiesGot;
+        cv.put("trophies", total);
+
+        int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
+        cursor.close();
+        db.close();
+        if (result == -1) {
+            return result;
+        }
+        else
+            return total;
     }
 }
 

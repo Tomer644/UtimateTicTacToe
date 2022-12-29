@@ -1,8 +1,15 @@
 package com.example.utimatetictactoe;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -23,6 +31,28 @@ import com.google.android.material.navigation.NavigationBarView;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ibx, ibo;
+    Button play;
+/* intent with result
+    ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==RESULT_OK){
+                        Intent res = result.getData();
+                        if(res != null){
+                            double avg = res.getDoubleExtra("avg",0);
+
+                        }
+                        else{
+                            if(result.getResultCode()==RESULT_CANCELED)
+                                Toast.makeText(getActivity(), "No Trophies", Toast.LENGTH_SHORT);
+                        }
+                    }
+                }
+            }
+    );*/
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +64,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ibx.setOnClickListener(this);
         ibo.setOnClickListener(this);
 
+        play = view.findViewById(R.id.btnPlay);
+        play.setOnClickListener(this::play);
         return view;
     }
 
@@ -61,5 +93,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         * lose
         * buy skin
          */
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PlayFragment()).commit();
+
     }
 }
