@@ -31,7 +31,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ibx, ibo;
-    Button play;
+    Button play,btn_logout;
 /* intent with result
     ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -66,7 +66,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         play = view.findViewById(R.id.btnPlay);
         play.setOnClickListener(this::play);
+
+        btn_logout = view.findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(this::logout);
         return view;
+    }
+
+    private void logout(View view) {
+        Intent intent = new Intent(getContext(), RegisterActivity.class);
+        startActivity(intent);
     }
 
 

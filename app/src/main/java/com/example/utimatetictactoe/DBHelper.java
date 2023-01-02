@@ -72,30 +72,28 @@ public class DBHelper extends SQLiteOpenHelper {
      * lose
      * buy skin
      */
-    final static int WIN = 1;
-    final static int TIE = 0;
-    final static int LOSE = -1;
     public int updateData(String username, int trophiesGot)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME+" WHERE username=?", new String[] {username});
-        //cursor.moveToFirst();
-        //int i = cursor.getColumnIndex("trophies");
-        int total = 0;
-        if(cursor != null && cursor.moveToFirst()) {
+        String query = "SELECT * FROM " +TABLE_NAME+" WHERE username=?";
+        Cursor cursor = db.rawQuery(query, new String[] {username});
+        cursor.moveToFirst();
+        int i = cursor.getColumnIndex("trophies");
+        //
+        // int total;
+        /*if(cursor != null && cursor.moveToFirst()) {
             int i = cursor.getColumnIndex("trophies");
             total = cursor.getInt(i) + trophiesGot;
-            cursor.close();
-            return -1;
         }
-        //int total = cursor.getInt(i) + trophiesGot;
+        else
+            return -1;*/
+        int total = cursor.getInt(i) + trophiesGot;
         cv.put("trophies", total);
 
         int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
         cursor.close();
-        db.close();
+        //db.close();
         if (result == -1) {
             return result;
         }
