@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     VpAdapter vpAdapter;
+    Intent signin;
+    static String username;
     static BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //signin = getIntent();
+        //username = signin.getStringExtra("username");
 
         bottomNavigationView = findViewById(R.id.nav_menu);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
@@ -56,5 +62,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    public static String getUsername(){
+        return username;
+    }
 
 }

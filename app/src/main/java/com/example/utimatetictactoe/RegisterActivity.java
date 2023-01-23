@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    static EditText name;
+    EditText etUsername;
+    static String user;
     EditText password;
     EditText testpas;
     Button btn1, btn2;
@@ -26,7 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn1=findViewById(R.id.btn1);
         btn2=findViewById(R.id.btn2);
-        name=findViewById(R.id.name);
+        etUsername=findViewById(R.id.name);
+        user = etUsername.getText().toString();
         password=findViewById(R.id.password);
         testpas=findViewById(R.id.testpas);
         DB = new DBHelper(this);
@@ -34,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user= name.getText().toString();
                 String pass= password.getText().toString();
                 String repass=testpas.getText().toString();
 
@@ -48,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (insert==true){
                                 Toast.makeText(RegisterActivity.this,"Registered Successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                //intent.putExtra("username", etUsername.getText().toString());
                                 startActivity(intent);
                             }
                             else {
@@ -78,6 +80,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static String getUsername()
     {
-        return name.getText().toString();
+        return user;
+    }
+    public static void setUsername(String username)
+    {
+        user = username;
     }
 }

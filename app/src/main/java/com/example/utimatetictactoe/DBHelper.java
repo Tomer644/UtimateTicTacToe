@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //checks if the table exists in the device
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists users");
+        db.execSQL("drop table if exists "+TABLE_NAME);
     }
 
     //inserts the users data when we register
@@ -76,19 +76,18 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        String query = "SELECT * FROM " +TABLE_NAME+" WHERE username=?";
+        String query = "SELECT * FROM "+TABLE_NAME+" WHERE username=?";
         Cursor cursor = db.rawQuery(query, new String[] {username});
         cursor.moveToFirst();
-        int i = cursor.getColumnIndex("trophies");
-        //
-        // int total;
-        /*if(cursor != null && cursor.moveToFirst()) {
+        //int i = cursor.getColumnIndex("trophies");
+        int total;
+        if(cursor != null && cursor.moveToFirst()) {
             int i = cursor.getColumnIndex("trophies");
             total = cursor.getInt(i) + trophiesGot;
         }
         else
-            return -1;*/
-        int total = cursor.getInt(i) + trophiesGot;
+            return -1;
+        //int total = cursor.getInt(i) + trophiesGot;
         cv.put("trophies", total);
 
         int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
