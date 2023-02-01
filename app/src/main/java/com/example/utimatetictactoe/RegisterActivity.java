@@ -12,8 +12,7 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etUsername;
-    static String user;
+    static EditText etUsername;
     EditText password;
     EditText testpas;
     Button btn1, btn2;
@@ -28,7 +27,6 @@ public class RegisterActivity extends AppCompatActivity {
         btn1=findViewById(R.id.btn1);
         btn2=findViewById(R.id.btn2);
         etUsername=findViewById(R.id.name);
-        user = etUsername.getText().toString();
         password=findViewById(R.id.password);
         testpas=findViewById(R.id.testpas);
         DB = new DBHelper(this);
@@ -38,8 +36,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String pass= password.getText().toString();
                 String repass=testpas.getText().toString();
+                String user = etUsername.getText().toString();
 
-                if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
+                if (TextUtils.isEmpty(etUsername.getText().toString()) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
                     Toast.makeText(RegisterActivity.this,"All fields Required",Toast.LENGTH_SHORT).show();
                 else {
                     if (pass.equals(repass)){
@@ -80,10 +79,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static String getUsername()
     {
-        return user;
+        return etUsername.getText().toString();
     }
     public static void setUsername(String username)
     {
-        user = username;
+        etUsername.setText(username);
     }
 }

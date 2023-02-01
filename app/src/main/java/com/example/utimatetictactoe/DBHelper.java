@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //creates the table with the key
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table "+TABLE_NAME+" (username TEXT primary key, password TEXT, trophies INTEGER)");
+        db.execSQL("create table users (username TEXT primary key, password TEXT, trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER)");
 
     }
 
@@ -39,6 +39,11 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("username",username);
         values.put("password",password);
         values.put("trophies", 0);
+        //gamesPlayed INTEGER, wins INTEGER, losses INTEGER
+        values.put("gamesPlayed", 0);
+        values.put("wins", 0);
+        values.put("losses", 0);
+
 
         long result= db.insert(TABLE_NAME,null, values);
         if(result==-1)
@@ -72,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * lose
      * buy skin
      */
-    public int updateData(String username, int trophiesGot)
+    public int updateData(String username, int trophiesGot, boolean win)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -80,15 +85,32 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[] {username});
         cursor.moveToFirst();
         //int i = cursor.getColumnIndex("trophies");
-        int total;
+        int totalTrophies, totalGames, totalWins;
         if(cursor != null && cursor.moveToFirst()) {
-            int i = cursor.getColumnIndex("trophies");
-            total = cursor.getInt(i) + trophiesGot;
+            int trophiesIndex = cursor.getColumnIndex("trophies");
+            totalTrophies = cursor.getInt(trophiesIndex) + trophiesGot;
+
+            int gamesIndex = cursor.getColumnIndex("gamesPlayed");
+            totalGames = cursor.getInt(gamesIndex);
+
+            int winsIndex = cursor.getColumnIndex("wins");
+            totalWins = cursor.getInt(winsIndex);
         }
         else
             return -1;
         //int total = cursor.getInt(i) + trophiesGot;
-        cv.put("trophies", total);
+
+        //trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER
+        cv.put("trophies", totalTrophies);
+        totalGames++;
+        cv.put("gamesPlayed", totalGames);
+        if(win){
+            totalWins++;
+            cv.put("wins", totalWins);
+        }
+        else{
+            cv.put("losses", totalGames-totalWins);
+        }
 
         int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
         cursor.close();
@@ -97,7 +119,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return result;
         }
         else
-            return total;
+            return totalTrophies;
     }
 }
 
