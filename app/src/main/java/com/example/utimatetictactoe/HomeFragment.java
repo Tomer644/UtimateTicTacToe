@@ -32,26 +32,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ibx, ibo;
     Button play,btn_logout;
-/* intent with result
-    ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode()==RESULT_OK){
-                        Intent res = result.getData();
-                        if(res != null){
-                            double avg = res.getDoubleExtra("avg",0);
-
-                        }
-                        else{
-                            if(result.getResultCode()==RESULT_CANCELED)
-                                Toast.makeText(getActivity(), "No Trophies", Toast.LENGTH_SHORT);
-                        }
-                    }
-                }
-            }
-    );*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
