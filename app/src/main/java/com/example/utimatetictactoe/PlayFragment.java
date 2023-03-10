@@ -36,7 +36,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
                         Intent intent = result.getData();
                         if (intent!=null)
                         {
-                            boolean res = intent.getBooleanExtra("win", false);
+                            char res = intent.getCharExtra("winner", '-');
                             boolean isUlt = intent.getBooleanExtra("ult", false);
                             gameOver(res, isUlt);
                         }
@@ -79,30 +79,34 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
     }
 
     //will be in the class
-    public void gameOver(boolean won, boolean isUltimate){//normal 15-25, ultra 25-35
-        //import Random;
+    public void gameOver(char winner, boolean isUltimate){//normal 15-25, ultra 25-35
+        boolean xWon = false;
+        //importing Random;
         Random rnd = new Random();
         int trophies; //(y-x+1)+x
-        if(won) {
+        if(winner=='X') {
             if (isUltimate) {//won in ult
                 trophies = rnd.nextInt(35-25+1)+25; //25-35
             }
             else{//won normal mode
                 trophies = rnd.nextInt(20-10+1)+15; //10-20
             }
+            xWon = true;
         }
-        else{
+        else if(winner=='O'){
             if (isUltimate) //lost ult
                 trophies = rnd.nextInt(-10-(-20)+1)-20; //-10 to -20
             else//lost normal
                 trophies = rnd.nextInt(-5-(-10)+1)-10; //-5 to -10
         }
+        else
+            trophies = 0;
         //if tie then 0
 
         DBHelper db = new DBHelper(getActivity());
         Toast.makeText(getContext(),"username: "+RegisterActivity.getUsername(), Toast.LENGTH_SHORT).show();
 
-        int result = db.updateData(RegisterActivity.getUsername(),trophies, won);
+        int result = db.updateData(RegisterActivity.getUsername(),trophies, xWon);
         if(result != -1)
             Toast.makeText(getContext(),"Update Successfully, you got "+trophies, Toast.LENGTH_SHORT).show();
         else

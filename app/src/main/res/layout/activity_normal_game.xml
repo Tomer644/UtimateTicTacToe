@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".normalGameActivity">
+    tools:context=".normalGameActivity"
+    android:layoutDirection="ltr">
 
 <!--    <Button-->
 <!--        android:id="@+id/btnWnormal"-->
@@ -31,12 +32,200 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.141" />
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/rvBoard"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"/>
+    <ImageView
+        android:id="@+id/grid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/grid" />
 
-<!--    <Button-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="420dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/grid"
+        app:layout_constraintEnd_toEndOf="@+id/grid"
+        app:layout_constraintStart_toStartOf="@+id/grid"
+        app:layout_constraintTop_toTopOf="@+id/grid">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <!--images of the grid boxes-->
+            <ImageButton
+                android:id="@+id/ImageButton00"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="0" />
+
+            <ImageButton
+                android:id="@+id/ImageButton01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="1" />
+
+            <ImageButton
+                android:id="@+id/ImageButton02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ImageButton10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="3" />
+
+            <ImageButton
+                android:id="@+id/ImageButton11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="4" />
+
+            <ImageButton
+                android:id="@+id/ImageButton12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ImageButton20"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="6" />
+
+            <ImageButton
+                android:id="@+id/ImageButton21"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="7" />
+
+            <ImageButton
+                android:id="@+id/ImageButton22"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:onClick="playerTap"
+                android:padding="20sp"
+                android:tag="8" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/winnerImg"
+        android:layout_width="0dp"
+        android:layout_height="420dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/grid"
+        app:layout_constraintEnd_toEndOf="@+id/grid"
+        app:layout_constraintStart_toStartOf="@+id/grid"
+        app:layout_constraintTop_toTopOf="@+id/grid"/>
+
+    <TextView
+        android:id="@+id/tvWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="173dp"
+        android:layout_marginTop="628dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="68dp"
+        android:text=""
+        android:gravity="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/grid"
+        app:layout_constraintEnd_toEndOf="@+id/grid"
+        app:layout_constraintStart_toStartOf="@+id/grid"
+        app:layout_constraintTop_toTopOf="@+id/grid" />
+
+    <!--    <Button-->
 <!--        android:id="@+id/btnLnormal"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->

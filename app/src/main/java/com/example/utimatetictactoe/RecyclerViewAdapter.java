@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.Contract;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter {/*extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
     private Board board;// = new Board("x.png", "o.png");
     private ItemClickListener mClickListener;
 
@@ -99,53 +100,53 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void changeCellByPos(@NonNull ViewHolder holder, int position, String skinPath){
         switch (position){
-            case 0: holder.imageView00.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 1: holder.imageView01.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 2: holder.imageView02.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 3: holder.imageView10.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 4: holder.imageView11.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 5: holder.imageView12.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 6: holder.imageView20.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 7: holder.imageView21.setBackground(Drawable.createFromPath(skinPath)); break;
-            case 8: holder.imageView22.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 0: holder.imageButton00.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 1: holder.imageButton01.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 2: holder.imageButton02.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 3: holder.imageButton10.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 4: holder.imageButton11.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 5: holder.imageButton12.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 6: holder.imageButton20.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 7: holder.imageButton21.setBackground(Drawable.createFromPath(skinPath)); break;
+            case 8: holder.imageButton22.setBackground(Drawable.createFromPath(skinPath)); break;
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView imageView00;//0
-        public ImageView imageView01;
-        public ImageView imageView02;
+        public ImageButton imageButton00;//0
+        public ImageButton imageButton01;
+        public ImageButton imageButton02;
 
-        public ImageView imageView10;
-        public ImageView imageView11;
-        public ImageView imageView12;
+        public ImageButton imageButton10;
+        public ImageButton imageButton11;
+        public ImageButton imageButton12;
 
-        public ImageView imageView20;
-        public ImageView imageView21;
-        public ImageView imageView22;//8
+        public ImageButton imageButton20;
+        public ImageButton imageButton21;
+        public ImageButton imageButton22;//8
 
         ViewHolder(View itemView) {
             super(itemView);
-            imageView00 = itemView.findViewById(R.id.imageView00);
-            imageView00.setOnClickListener(this);
-            imageView01 = itemView.findViewById(R.id.imageView01);
-            imageView01.setOnClickListener(this);
-            imageView02 = itemView.findViewById(R.id.imageView02);
-            imageView02.setOnClickListener(this);
+            imageButton00 = itemView.findViewById(R.id.imageButton00);
+            imageButton00.setOnClickListener(this);
+            imageButton01 = itemView.findViewById(R.id.imageButton01);
+            imageButton01.setOnClickListener(this);
+            imageButton02 = itemView.findViewById(R.id.imageButton02);
+            imageButton02.setOnClickListener(this);
 
-            imageView10 = itemView.findViewById(R.id.imageView10);
-            imageView10.setOnClickListener(this);
-            imageView11 = itemView.findViewById(R.id.imageView11);
-            imageView11.setOnClickListener(this);
-            imageView12 = itemView.findViewById(R.id.imageView12);
-            imageView12.setOnClickListener(this);
+            imageButton10 = itemView.findViewById(R.id.imageButton10);
+            imageButton10.setOnClickListener(this);
+            imageButton11 = itemView.findViewById(R.id.imageButton11);
+            imageButton11.setOnClickListener(this);
+            imageButton12 = itemView.findViewById(R.id.imageButton12);
+            imageButton12.setOnClickListener(this);
 
-            imageView20 = itemView.findViewById(R.id.imageView20);
-            imageView20.setOnClickListener(this);
-            imageView21 = itemView.findViewById(R.id.imageView21);
-            imageView21.setOnClickListener(this);
-            imageView22 = itemView.findViewById(R.id.imageView22);
-            imageView22.setOnClickListener(this);
+            imageButton20 = itemView.findViewById(R.id.imageButton20);
+            imageButton20.setOnClickListener(this);
+            imageButton21 = itemView.findViewById(R.id.imageButton21);
+            imageButton21.setOnClickListener(this);
+            imageButton22 = itemView.findViewById(R.id.imageButton22);
+            imageButton22.setOnClickListener(this);
         }
 
         @Override
@@ -173,4 +174,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface ItemClickListener {
         void onItemClick(View view, int position); //int row, col instead of pos
     }
+    */
 }

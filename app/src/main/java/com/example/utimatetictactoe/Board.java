@@ -10,16 +10,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 
-public class Board implements View.OnClickListener {
+import org.jetbrains.annotations.Contract;
+
+public class Board {//implements View.OnClickListener {
     //protected ImageView[][] board;
     protected BoardButton[][] board;
-    protected String xSkinPath;
-    protected String oSkinPath;
+    protected int xSkinPath;
+    protected int oSkinPath;
     protected boolean Xturn;
+    protected int turnCount;
     //setContentView(R.layout.activity_login);
 
-    public Board(String xPath, String oPath) {
+    public Board(int xPath, int oPath) {
         this.board = new BoardButton[3][3];
         //this.board = new ImageView[3][3];
         /* with imageButton:
@@ -28,6 +32,7 @@ public class Board implements View.OnClickListener {
         this.xSkinPath = xPath;
         this.oSkinPath = oPath;
         this.Xturn = true;
+        this.turnCount = 0;
         createButtons();
     }
 
@@ -36,37 +41,41 @@ public class Board implements View.OnClickListener {
             for (int j = 0; j < this.board[0].length; j++){
                 String buttonId = "button_"+ i + j; //what do i do with this id?
                 this.board[i][j] = new BoardButton(buttonId);
+                //this.board[i][j].set
                 //this.board[i][j].setOnClickListener(this);
             }
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int loc[] = findPressedButton(view);
-        if(loc==null){
-            throw new RuntimeException("no button pressed");
-        }
-        //view.getId(); //10 row, 11 col
-        //BoardButton cell = new BoardButton()
-        //int row = .id; //8
-        //int col = //8
-        int row = loc[0];
-        int col = loc[1];
-        this.board[row][col].onClick(view);
-        //put the image
-        if(this.Xturn){
-            this.board[row][col].player = 'x';
-            view.setBackground(Drawable.createFromPath(this.xSkinPath));
-            this.Xturn = false;
-        }
-        else{
-            this.board[row][col].player = 'o';
-            view.setBackground(Drawable.createFromPath(this.oSkinPath));
-            this.Xturn = true;
+    public void setAllPressed(){
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[0].length; j++) {
+                if(!this.board[i][j].isPressed())
+                    this.board[i][j].setPressed(true);
+            }
         }
     }
 
+    public void buttonClicked(ImageButton view, int row, int col){
+        this.board[row][col].setPressed(true);
+        if(this.Xturn){
+            this.board[row][col].player = 'X';
+            //view.setBackground(Drawable.createFromPath(this.xSkinPath));
+            view.setImageResource(this.xSkinPath);
+            this.Xturn = false;
+        }
+        else{
+            this.board[row][col].player = 'O';
+            //view.setBackground(Drawable.createFromPath(this.oSkinPath));
+            view.setImageResource(this.oSkinPath);
+            this.Xturn = true;
+        }
+        this.turnCount++;
+
+    }
+
+    @Nullable
+    @Contract(pure = true)
     private int[] findPressedButton(View v){
         int[]loc = new int[2];
         for (int i = 0; i < this.board.length; i++){
@@ -86,19 +95,19 @@ public class Board implements View.OnClickListener {
         this.Xturn = xturn;
     }
 
-    /*
-    public boolean checkVictory() {
+
+    public char checkVictory() {
         int sumX, sumO;
-        //check row
+        //check rows
         for (int i = 0; i < this.board.length; i++)
         {
             sumX=0;
             sumO=0;
             for (int j = 0; j < this.board.length; j++)
             {
-                if(this.board[i][j]=='X')
+                if(this.board[i][j].player=='X')
                     sumX++;
-                else if(this.board[i][j]=='O')
+                else if(this.board[i][j].player=='O')
                     sumO++;
             }
             if(sumO == 3)
@@ -107,16 +116,16 @@ public class Board implements View.OnClickListener {
                 return 'X';
         }
 
-        //check col
+        //check columns
         for (int i = 0; i < this.board.length; i++)
         {
             sumX=0;
             sumO=0;
             for (int j = 0; j < this.board.length; j++)
             {
-                if(this.board[j][i]=='X')
+                if(this.board[j][i].player=='X')
                     sumX++;
-                else if(this.board[j][i]=='O')
+                else if(this.board[j][i].player=='O')
                     sumO++;
             }
             //i turned the row to the col and the oposite
@@ -131,9 +140,9 @@ public class Board implements View.OnClickListener {
         sumO=0;
         for (int i = 0; i < this.board.length; i++)
         {
-            if(this.board[i][i]=='X')
+            if(this.board[i][i].player=='X')
                 sumX++;
-            else if(this.board[i][i]=='O')
+            else if(this.board[i][i].player=='O')
                 sumO++;
         }
         if(sumO == 3)
@@ -147,9 +156,9 @@ public class Board implements View.OnClickListener {
         int j = this.board.length-1;
         for (int i = 0; i < this.board.length; i++)
         {
-            if(this.board[i][j]=='X')
+            if(this.board[i][j].player=='X')
                 sumX++;
-            else if(this.board[i][j]=='O')
+            else if(this.board[i][j].player=='O')
                 sumO++;
             j--;
         }
@@ -159,6 +168,7 @@ public class Board implements View.OnClickListener {
             return 'X';
 
         return '-';
-    }*/
+    }
+
 
 }

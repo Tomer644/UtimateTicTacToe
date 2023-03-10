@@ -3,13 +3,14 @@ package com.example.utimatetictactoe;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class BoardButton implements View.OnClickListener{
+public class BoardButton{// implements View.OnClickListener{
     //protected Button button;
-    protected ImageView img; @NonNull
+    protected ImageButton img_btn; @NonNull
     protected String id;
     protected char player;
     protected boolean isPressed;
@@ -47,11 +48,11 @@ public class BoardButton implements View.OnClickListener{
     }
 
     public void setPressed(boolean pressed) {
-        isPressed = pressed;
+        this.isPressed = pressed;
     }
 
-    public void setImg(ImageView imageView) {
-        this.img = imageView;
+    public void setImg(ImageButton imageButton) {
+        this.img_btn = imageButton;
     }
 
     /*public void clickButton(@NonNull Board board){
@@ -67,10 +68,11 @@ public class BoardButton implements View.OnClickListener{
         }
     }*/
 
+    /*
     @Override
     public void onClick(View view) {
         this.isPressed = true;
-        this.img.setClickable(false);
+        this.img_btn.setClickable(false);
 //        if(board.Xturn){
 //            this.player = 'x';
 //            view.setBackground(Drawable.createFromPath(board.xSkinPath));
@@ -79,6 +81,6 @@ public class BoardButton implements View.OnClickListener{
 //            this.player = 'o';
 //            view.setBackground(Drawable.createFromPath(board.oSkinPath));
 //        }
-    }
+    }*/
 
 }

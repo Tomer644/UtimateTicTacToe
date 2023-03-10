@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".HomeFragment"
+   >
 
     <TextView
         android:id="@+id/textView"
@@ -31,7 +32,7 @@
         android:maxWidth="100dp"
         android:maxHeight="100dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/xlogo1"
+        android:src="@drawable/x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
@@ -47,7 +48,7 @@
         android:maxWidth="100dp"
         android:maxHeight="100dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ologo1"
+        android:src="@drawable/o"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.825"
