@@ -2,9 +2,11 @@ package com.example.utimatetictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +17,9 @@ public class RegisterActivity extends AppCompatActivity {
     static EditText etUsername;
     EditText password;
     EditText testpas;
-    Button btn1, btn2;
+    Button btn1, btn2, btn3;
     DBHelper DB;
+    AlertDialog ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,45 @@ public class RegisterActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);*/
+
+                AlertDialog.Builder dbuilder = new AlertDialog.Builder(RegisterActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.activity_login,null);
+                dbuilder.setView(dialogView);
+                ad = dbuilder.create();
+                ad.show();
+                etUsername=dialogView.findViewById(R.id.username);
+                password=dialogView.findViewById(R.id.logpass);
+
+                btn3 = dialogView.findViewById(R.id.btn3);
+                btn3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String user = etUsername.getText().toString();
+                        String testpas= password.getText().toString();
+
+                        if(TextUtils.isEmpty(user) || TextUtils.isEmpty(testpas))
+                            Toast.makeText(RegisterActivity.this, "all fields Required", Toast.LENGTH_SHORT).show();
+                        else{
+                            Boolean checkuserpass= DB.checkusernamepassword(user,testpas);
+                            if (checkuserpass==true){
+                                Toast.makeText(RegisterActivity.this, "Login Successful",Toast.LENGTH_SHORT).show();
+                                //RegisterActivity.setUsername(user);
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                //intent.putExtra("username", user);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(RegisterActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
             }
+
         });
 
 

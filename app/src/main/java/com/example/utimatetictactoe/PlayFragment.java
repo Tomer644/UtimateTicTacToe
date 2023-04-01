@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -24,6 +26,7 @@ import java.util.Random;
 public class PlayFragment extends Fragment implements View.OnClickListener {
 
     Button btnNormal, btnUltimate;
+    Switch playerSwitch;
 
     //get result, currently temp cuz we will prevent all of that
     // by putting the game over method in the class and activate it at the end of the game
@@ -58,6 +61,21 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
         btnNormal.setOnClickListener(this);
         btnUltimate.setOnClickListener(this);
 
+        playerSwitch = view.findViewById(R.id.switchPlayer);
+
+
+        playerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    playerSwitch.setText("X");
+                }
+                else{
+                    playerSwitch.setText("O");
+                }
+            }
+        });
+
         return view;
     }
 
@@ -80,20 +98,20 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
 
     //will be in the class
     public void gameOver(char winner, boolean isUltimate){//normal 15-25, ultra 25-35
-        boolean xWon = false;
+        boolean pWon = false;
         //importing Random;
         Random rnd = new Random();
         int trophies; //(y-x+1)+x
-        if(winner=='X') {
+        if(winner=='X' && playerSwitch.isChecked() || winner=='O' && !playerSwitch.isChecked()) {
             if (isUltimate) {//won in ult
                 trophies = rnd.nextInt(35-25+1)+25; //25-35
             }
             else{//won normal mode
                 trophies = rnd.nextInt(20-10+1)+15; //10-20
             }
-            xWon = true;
+            pWon = true;
         }
-        else if(winner=='O'){
+        else if(winner!='-'){
             if (isUltimate) //lost ult
                 trophies = rnd.nextInt(-10-(-20)+1)-20; //-10 to -20
             else//lost normal
@@ -106,7 +124,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
         DBHelper db = new DBHelper(getActivity());
         Toast.makeText(getContext(),"username: "+RegisterActivity.getUsername(), Toast.LENGTH_SHORT).show();
 
-        int result = db.updateData(RegisterActivity.getUsername(),trophies, xWon);
+        int result = db.updateData(RegisterActivity.getUsername(),trophies, pWon);
         if(result != -1)
             Toast.makeText(getContext(),"Update Successfully, you got "+trophies, Toast.LENGTH_SHORT).show();
         else

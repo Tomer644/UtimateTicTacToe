@@ -30,10 +30,10 @@ public class UltraGameActivity extends AppCompatActivity implements View.OnClick
         back = new Intent();
         back.putExtra("ult", true);
         if(view.equals(win)) {
-            back.putExtra("win", true);
+            back.putExtra("winner", 'X');
         }
         else {
-            back.putExtra("win", false);
+            back.putExtra("winner", 'O');
         }
         setResult(RESULT_OK, back);
         finish();
