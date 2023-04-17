@@ -2,11 +2,16 @@ package com.example.utimatetictactoe;
 
 //import static androidx.core.graphics.drawable.IconCompat.getResources;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -15,13 +20,18 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.Contract;
 
 public class Board {//implements View.OnClickListener {
-    //protected ImageView[][] board;
     protected BoardButton[][] board;
     protected int xSkinPath;
     protected int oSkinPath;
     protected boolean Xturn;
     protected int turnCount;
-    //setContentView(R.layout.activity_login);
+
+    //private Context context;
+    //for the big game:
+    protected int boardId;
+    protected char boardWinner;
+    protected boolean finished;
+
 
     public Board(int xPath, int oPath) {
         this.board = new BoardButton[3][3];
@@ -33,7 +43,11 @@ public class Board {//implements View.OnClickListener {
         this.oSkinPath = oPath;
         this.Xturn = true;
         this.turnCount = 0;
+        //this.context = context;
         createButtons();
+
+        //this.boardWinner = '-';
+        this.finished = false;
     }
 
     private void createButtons(){
@@ -41,11 +55,28 @@ public class Board {//implements View.OnClickListener {
             for (int j = 0; j < this.board[0].length; j++){
                 String buttonId = "button_"+ i + j; //what do i do with this id?
                 this.board[i][j] = new BoardButton(buttonId);
-                //this.board[i][j].set
-                //this.board[i][j].setOnClickListener(this);
+
             }
         }
     }
+
+//    public View getBoardView(Context THIS){
+//        TableLayout tl = new TableLayout(THIS);
+//        for (int i = 0; i < 3; i++) {
+//            TableRow tr = new TableRow(THIS);
+//            for (int j = 0; j < 3; j++) {
+//                ImageButton ib = new ImageButton(THIS);
+//                ib.setBackgroundColor(Color.GRAY);
+//                //ib.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                //ib.setPadding(5,5,5,5);
+//                tr.addView(ib);
+//            }
+//            tl.addView(tr);
+//        }
+//        tl.setShrinkAllColumns(true);
+//        tl.setStretchAllColumns(true);
+//        return tl;
+//    }
 
     public void setAllPressed(){
         for (int i = 0; i < this.board.length; i++) {
@@ -60,7 +91,6 @@ public class Board {//implements View.OnClickListener {
         this.board[row][col].setPressed(true);
         if(this.Xturn){
             this.board[row][col].player = 'X';
-            //view.setBackground(Drawable.createFromPath(this.xSkinPath));
             view.setImageResource(this.xSkinPath);
             this.Xturn = false;
         }
@@ -110,10 +140,16 @@ public class Board {//implements View.OnClickListener {
                 else if(this.board[i][j].player=='O')
                     sumO++;
             }
-            if(sumO == 3)
+            if(sumO == 3){
+                this.finished = true;
+                this.boardWinner = 'O';
                 return 'O';
-            else if(sumX == 3)
+            }
+            else if(sumX == 3) {
+                this.finished = true;
+                this.boardWinner = 'X';
                 return 'X';
+            }
         }
 
         //check columns
@@ -129,10 +165,16 @@ public class Board {//implements View.OnClickListener {
                     sumO++;
             }
             //i turned the row to the col and the oposite
-            if(sumO == 3)
+            if(sumO == 3) {
+                this.finished = true;
+                this.boardWinner = 'O';
                 return 'O';
-            else if(sumX == 3)
+            }
+            else if(sumX == 3) {
+                this.finished = true;
+                this.boardWinner = 'X';
                 return 'X';
+            }
         }
 
         //check first cross
@@ -145,10 +187,16 @@ public class Board {//implements View.OnClickListener {
             else if(this.board[i][i].player=='O')
                 sumO++;
         }
-        if(sumO == 3)
+        if(sumO == 3) {
+            this.finished = true;
+            this.boardWinner = 'O';
             return 'O';
-        else if(sumX == 3)
+        }
+        else if(sumX == 3) {
+            this.finished = true;
+            this.boardWinner = 'X';
             return 'X';
+        }
 
         //check second cross
         sumX=0;
@@ -162,11 +210,20 @@ public class Board {//implements View.OnClickListener {
                 sumO++;
             j--;
         }
-        if(sumO == 3)
+        if(sumO == 3){
+            this.finished = true;
+            this.boardWinner = 'O';
             return 'O';
-        else if(sumX == 3)
+        }
+        else if(sumX == 3){
+            this.finished = true;
+            this.boardWinner = 'X';
             return 'X';
+        }
 
+
+        this.finished = true;
+        this.boardWinner = '-';
         return '-';
     }
 

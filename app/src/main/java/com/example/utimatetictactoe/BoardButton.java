@@ -9,23 +9,17 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 public class BoardButton{// implements View.OnClickListener{
-    //protected Button button;
     protected ImageButton img_btn; @NonNull
     protected String id;
     protected char player;
     protected boolean isPressed;
 
-    public BoardButton(/*Button button,*/String id) {
-        //this.button = button;
-        //this.img = new
+    public BoardButton(String id) {
         this.id = id;
         this.player = '-';
         this.isPressed = false;
     }
 
-    //public Button getButton() {return button;}
-
-    //public void setButton(Button button) {this.button = button;}
 
     public String getId() {
         return id;
@@ -36,7 +30,7 @@ public class BoardButton{// implements View.OnClickListener{
     }
 
     public char getPlayer() {
-        return player;
+        return this.player;
     }
 
     public void setPlayer(char player) {

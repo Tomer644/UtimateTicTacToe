@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class normalGameActivity extends AppCompatActivity{
+public class normalGameActivity extends AppCompatActivity implements IgameActivity{
 
     //Button lose, win;
     Intent get, back;
