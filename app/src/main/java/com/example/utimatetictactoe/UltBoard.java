@@ -4,27 +4,31 @@ import android.content.Context;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.Contract;
+
 public class UltBoard {
     protected Board[][]bigBoard;
-    protected int nextBoard; //number 0 - 8 of the small board
-    protected Context context;
+    protected int nextBoard; //number 0 - 8 of the small board; -1 == all boards
+    protected int boardsFullCount;
 
-    public UltBoard(int xPath, int oPath, Context context){
+    public static final int ALL_BOARDS_ALLOWED = -1;
+
+
+    public UltBoard(int xPath, int oPath){
         this.bigBoard = new Board[3][3];
-        this.context = context;
+        this.nextBoard = ALL_BOARDS_ALLOWED;
+        this.boardsFullCount = 0;
         createBoards(xPath, oPath);
     }
 
     private void createBoards(int xPath, int oPath){
         int count = 0;
-        GridLayout[]gridLayouts = new GridLayout[9];
         for (int i = 0; i<this.bigBoard.length; i++){
             for (int j = 0; j<this.bigBoard[0].length; j++){
                 this.bigBoard[i][j] = new Board(xPath, oPath);
                 this.bigBoard[i][j].boardId = count;
-                gridLayouts[count] = new GridLayout(this.context);
-                gridLayouts[count].setColumnCount(3);
-                gridLayouts[count].setRowCount(3);
                 count++;
             }
         }
@@ -32,8 +36,95 @@ public class UltBoard {
 
     }
 
-    public void buttonClicked(ImageButton view, int row, int col, int tappedCell){
-        //this.bigBoard[][].buttonClicked(view, row, col);
+    public void buttonClicked(ImageButton view, int tappedCell, int currentGrid){
+
+        int[]current = numToLoc(currentGrid);//current board
+        int[]cell = numToLoc(tappedCell);//cell tapped - also the next board
+        this.bigBoard[current[0]][current[1]].buttonClicked(view, cell[0], cell[1]);
+
+        if(this.bigBoard[cell[0]][cell[1]].finished){
+            this.setNextBoard(UltBoard.ALL_BOARDS_ALLOWED);
+            //if a small board already full -
+            // you can choose (at what small board) your next turn will be
+        }
+        else{
+            this.setNextBoard(tappedCell);
+            //set all the small boards unclickable - except for the one he sent his opponent to
+        }
+    }
+
+
+    public boolean isBoardAtNumFinished(int boardNum){
+        //returns if the small board at number "num" is finished
+        int row, col;
+        int[]loc = numToLoc(boardNum);
+        row = loc[0];
+        col = loc[1];
+        return this.bigBoard[row][col].finished;
+    }
+
+    public int getNextBoard() {
+        return nextBoard;
+    }
+
+    public void setNextBoard(int nextBoard) {
+        this.nextBoard = nextBoard;
+    }
+
+    public int getBoardsFullCount() {
+        return boardsFullCount;
+    }
+
+    public void addToBoardsFullCount() {
+        this.boardsFullCount++;
+    } //!
+
+
+
+    @NonNull
+    @Contract(pure = true)
+    private int[] numToLoc(int num){
+        int row = 0, col = 0;
+        switch (num){
+            case 0:
+                row=0;
+                col=0;
+                break;
+            case 1:
+                row=0;
+                col=1;
+                break;
+            case 2:
+                row=0;
+                col=2;
+                break;
+            case 3:
+                row=1;
+                col=0;
+                break;
+            case 4:
+                row=1;
+                col=1;
+                break;
+            case 5:
+                row=1;
+                col=2;
+                break;
+            case 6:
+                row=2;
+                col=0;
+                break;
+            case 7:
+                row=2;
+                col=1;
+                break;
+            case 8:
+                row=2;
+                col=2;
+                break;
+        }
+        int[]loc = new int[]{row, col};
+        return loc;
     }
 
     public boolean boardFull(){

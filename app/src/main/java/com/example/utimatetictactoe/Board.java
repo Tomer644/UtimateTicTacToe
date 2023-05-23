@@ -29,8 +29,9 @@ public class Board {//implements View.OnClickListener {
     //private Context context;
     //for the big game:
     protected int boardId;
-    protected char boardWinner;
+    protected char boardWinner; //maybe useless
     protected boolean finished;
+    protected boolean nowTurn;
 
 
     public Board(int xPath, int oPath) {
@@ -48,6 +49,7 @@ public class Board {//implements View.OnClickListener {
 
         //this.boardWinner = '-';
         this.finished = false;
+        this.nowTurn = true;
     }
 
     private void createButtons(){
@@ -88,15 +90,17 @@ public class Board {//implements View.OnClickListener {
     }
 
     public void buttonClicked(ImageButton view, int row, int col){
+        if(this.board[row][col].isPressed) {
+            return;
+        }
         this.board[row][col].setPressed(true);
-        if(this.Xturn){
+        if(this.Xturn){ //Xturn(true) = turnCount%2==0
             this.board[row][col].player = 'X';
             view.setImageResource(this.xSkinPath);
             this.Xturn = false;
         }
         else{
             this.board[row][col].player = 'O';
-            //view.setBackground(Drawable.createFromPath(this.oSkinPath));
             view.setImageResource(this.oSkinPath);
             this.Xturn = true;
         }
@@ -125,6 +129,13 @@ public class Board {//implements View.OnClickListener {
         this.Xturn = xturn;
     }
 
+    public boolean isNowTurn() {
+        return nowTurn;
+    }
+
+    public void setNowTurn(boolean nowTurn) {
+        this.nowTurn = nowTurn;
+    }
 
     public char checkVictory() {
         int sumX, sumO;
@@ -220,7 +231,6 @@ public class Board {//implements View.OnClickListener {
             this.boardWinner = 'X';
             return 'X';
         }
-
 
         this.finished = true;
         this.boardWinner = '-';

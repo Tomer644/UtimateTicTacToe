@@ -1,22 +1,32 @@
 package com.example.utimatetictactoe;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.jetbrains.annotations.Contract;
 
 public class UltraGameActivity extends AppCompatActivity{//} implements View.OnClickListener, IgameActivity {
 
     Button lose, win;
     GridLayout gridLayout;
     Intent get, back;
+    UltBoard ultBoard;
+    GridLayout grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8;
+    TextView tvWinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +45,16 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         //point.x = screen width, point.y = screen height
         int gridHeight = (int) (point.y * 0.75);
 
-
+        grid0 = findViewById(R.id.grid0);
+        grid1 = findViewById(R.id.grid1);
+        grid2 = findViewById(R.id.grid2);
+        grid3 = findViewById(R.id.grid3);
+        grid4 = findViewById(R.id.grid4);
+        grid5 = findViewById(R.id.grid5);
+        grid6 = findViewById(R.id.grid6);
+        grid7 = findViewById(R.id.grid7);
+        grid8 = findViewById(R.id.grid8);
+        tvWinner = findViewById(R.id.tvWinner);
     }
 
 
@@ -55,6 +74,190 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
 
 
     public void playerTap(View view) {
+        ImageButton img = (ImageButton) view;
+        img.setClickable(false);
+        //11 = grid, 12 = cell
+        int id = img.getId();
+        String strId = img.getResources().getResourceEntryName(id);
+        Toast.makeText(this, "id:"+strId, Toast.LENGTH_SHORT).show();
+
+        int currentGrid = strId.charAt(11) - '0';
+        if(ultBoard.nextBoard!=currentGrid){
+            img.setClickable(true);
+            return;
+        }
+        int[]current = numToLoc(currentGrid);
+        /*
+        int[]current = numToLoc(currentGrid);
+        if(!this.ultBoard.bigBoard[current[0]][current[1]].nowTurn){
+            img.setClickable(true);
+            return;
+        }*/
+
+        int cell = strId.charAt(12)- '0';
+        ultBoard.buttonClicked(img, cell, currentGrid);
+        //activates the small board button clocked method,
+        //and handles the nextTurn param to set the next board you play at
+        checkSmallWin(current[0], current[1], currentGrid);
+
+        //add a selector!
+        //till here - handeld the id and the wanted board that is the current and next turn
+
+        if(ultBoard.getBoardsFullCount()>4){
+            checkUltimateWinner();
+        }
+
+    }
+
+    private void checkUltimateWinner(){
+        char chWin = ultBoard.checkTotalVictory();
+        if(chWin!='-'){
+            tvWinner.setText("The winner is "+chWin+" !");
+
+            tvWinner.animate().translationY(-1400).setDuration(2700).setStartDelay(0);
+            tvWinner.animate().translationY(2000).setDuration(2000).setStartDelay(2900);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goBack(chWin);
+                }
+            }, 5000);
+        }
+        if(ultBoard.getBoardsFullCount()==9){
+            tvWinner.setText("Draw! no winner!");
+
+            tvWinner.animate().translationY(-1400).setDuration(2700).setStartDelay(0);
+            tvWinner.animate().translationY(2000).setDuration(2000).setStartDelay(2900);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goBack(chWin);
+                }
+            }, 5000);
+        }
+    }
+
+
+    private void checkSmallWin(int bRow, int bCol, int gridNum) {
+        if(ultBoard.bigBoard[bRow][bCol].turnCount<=4){
+            return;
+        }
+        char chWin = ultBoard.bigBoard[bRow][bCol].checkVictory();
+        GridLayout wGrid = numToGrid(gridNum);
+        if (chWin != '-') {
+            ultBoard.bigBoard[bRow][bCol].setAllPressed();
+            if (chWin == 'X')
+                wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
+            else
+                wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
+
+            ultBoard.addToBoardsFullCount();
+        }
+        //else if finished (draw) background = '-' ?
+
+    }
+
+
+    /*private void setAllBoardsTurnTrue(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(!this.ultBoard.bigBoard[i][j].finished)
+                    this.ultBoard.bigBoard[i][j].setNowTurn(true);
+            }
+        }
+    }
+
+    private void setAllBoardsFalse(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(this.ultBoard.bigBoard[i][j].isNowTurn())
+                    this.ultBoard.bigBoard[i][j].setNowTurn(false);
+            }
+        }
+    }*/
+
+
+    @NonNull
+    @Contract(pure = true)
+    private int[] numToLoc(int num){
+        int row = 0, col = 0;
+        switch (num){
+            case 0:
+                row=0;
+                col=0;
+                break;
+            case 1:
+                row=0;
+                col=1;
+                break;
+            case 2:
+                row=0;
+                col=2;
+                break;
+            case 3:
+                row=1;
+                col=0;
+                break;
+            case 4:
+                row=1;
+                col=1;
+                break;
+            case 5:
+                row=1;
+                col=2;
+                break;
+            case 6:
+                row=2;
+                col=0;
+                break;
+            case 7:
+                row=2;
+                col=1;
+                break;
+            case 8:
+                row=2;
+                col=2;
+                break;
+        }
+        int[]loc = new int[]{row, col};
+        return loc;
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    private GridLayout numToGrid(int num){
+        switch (num){
+            case 0:
+                return grid0;
+            case 1:
+                return grid1;
+            case 2:
+                return grid2;
+            case 3:
+                return grid3;
+            case 4:
+                return grid4;
+            case 5:
+                return grid5;
+            case 6:
+                return grid6;
+            case 7:
+                return grid7;
+            case 8:
+                return grid8;
+            default:
+                return null;
+        }
+    }
+
+    public void goBack(char chWin) {
+        back = new Intent();
+        back.putExtra("ult", true);
+        back.putExtra("winner", chWin);
+        setResult(RESULT_OK, back);
+        finish();
     }
 }
 
