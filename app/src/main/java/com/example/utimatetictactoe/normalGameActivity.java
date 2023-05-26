@@ -21,6 +21,7 @@ public class normalGameActivity extends AppCompatActivity implements IgameActivi
     Board board;
     ImageView winner;
     TextView tvWinner;
+    //int turnCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class normalGameActivity extends AppCompatActivity implements IgameActivi
                 col=2;
                 break;
         }
-        board.buttonClicked(img, row, col);
+        board.buttonClicked(img, row, col, board.turnCount%2==0);
         if(board.turnCount>4){
             checkWinner();
         }

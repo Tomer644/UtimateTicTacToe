@@ -12,6 +12,7 @@ public class UltBoard {
     protected Board[][]bigBoard;
     protected int nextBoard; //number 0 - 8 of the small board; -1 == all boards
     protected int boardsFullCount;
+    protected boolean xTurn;
 
     public static final int ALL_BOARDS_ALLOWED = -1;
 
@@ -20,6 +21,7 @@ public class UltBoard {
         this.bigBoard = new Board[3][3];
         this.nextBoard = ALL_BOARDS_ALLOWED;
         this.boardsFullCount = 0;
+        this.xTurn = true;
         createBoards(xPath, oPath);
     }
 
@@ -40,16 +42,17 @@ public class UltBoard {
 
         int[]current = numToLoc(currentGrid);//current board
         int[]cell = numToLoc(tappedCell);//cell tapped - also the next board
-        this.bigBoard[current[0]][current[1]].buttonClicked(view, cell[0], cell[1]);
+        this.bigBoard[current[0]][current[1]].buttonClicked(view, cell[0], cell[1], this.xTurn);
+        this.xTurn = !this.xTurn;
 
         if(this.bigBoard[cell[0]][cell[1]].finished){
-            this.setNextBoard(UltBoard.ALL_BOARDS_ALLOWED);
             //if a small board already full -
             // you can choose (at what small board) your next turn will be
+            this.setNextBoard(UltBoard.ALL_BOARDS_ALLOWED);
         }
         else{
-            this.setNextBoard(tappedCell);
             //set all the small boards unclickable - except for the one he sent his opponent to
+            this.setNextBoard(tappedCell);
         }
     }
 

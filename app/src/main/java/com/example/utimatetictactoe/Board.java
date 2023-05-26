@@ -23,7 +23,7 @@ public class Board {//implements View.OnClickListener {
     protected BoardButton[][] board;
     protected int xSkinPath;
     protected int oSkinPath;
-    protected boolean Xturn;
+    //protected boolean Xturn;
     protected int turnCount;
 
     //private Context context;
@@ -31,7 +31,6 @@ public class Board {//implements View.OnClickListener {
     protected int boardId;
     protected char boardWinner; //maybe useless
     protected boolean finished;
-    protected boolean nowTurn;
 
 
     public Board(int xPath, int oPath) {
@@ -42,14 +41,13 @@ public class Board {//implements View.OnClickListener {
         this.o.setImageResource(int oSkinId);*/
         this.xSkinPath = xPath;
         this.oSkinPath = oPath;
-        this.Xturn = true;
+        //this.Xturn = true;
         this.turnCount = 0;
         //this.context = context;
         createButtons();
 
         //this.boardWinner = '-';
         this.finished = false;
-        this.nowTurn = true;
     }
 
     private void createButtons(){
@@ -89,20 +87,20 @@ public class Board {//implements View.OnClickListener {
         }
     }
 
-    public void buttonClicked(ImageButton view, int row, int col){
+    public void buttonClicked(ImageButton view, int row, int col, boolean xTurn){
         if(this.board[row][col].isPressed) {
             return;
         }
         this.board[row][col].setPressed(true);
-        if(this.Xturn){ //Xturn(true) = turnCount%2==0
+        if(xTurn){ //this.Xturn(true) = turnCount%2==0
             this.board[row][col].player = 'X';
             view.setImageResource(this.xSkinPath);
-            this.Xturn = false;
+            //this.Xturn = false;
         }
         else{
             this.board[row][col].player = 'O';
             view.setImageResource(this.oSkinPath);
-            this.Xturn = true;
+            //this.Xturn = true;
         }
         this.turnCount++;
 
@@ -124,18 +122,11 @@ public class Board {//implements View.OnClickListener {
         return null;
     }
 
-    public void setTurn(boolean xturn)
+    /*public void setTurn(boolean xturn)
     {
         this.Xturn = xturn;
-    }
+    }*/
 
-    public boolean isNowTurn() {
-        return nowTurn;
-    }
-
-    public void setNowTurn(boolean nowTurn) {
-        this.nowTurn = nowTurn;
-    }
 
     public char checkVictory() {
         int sumX, sumO;
@@ -232,8 +223,7 @@ public class Board {//implements View.OnClickListener {
             return 'X';
         }
 
-        this.finished = true;
-        this.boardWinner = '-';
+        this.finished = false;
         return '-';
     }
 

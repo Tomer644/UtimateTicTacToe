@@ -5,15 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +38,11 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         get = getIntent();
         gridLayout = findViewById(R.id.grid_layout);
 
-        Point point = new Point();
+        ultBoard = new UltBoard(R.drawable.x, R.drawable.o);
+        /*Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         //point.x = screen width, point.y = screen height
-        int gridHeight = (int) (point.y * 0.75);
+        int gridHeight = (int) (point.y * 0.75);*/
 
         grid0 = findViewById(R.id.grid0);
         grid1 = findViewById(R.id.grid1);
@@ -55,6 +54,7 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         grid7 = findViewById(R.id.grid7);
         grid8 = findViewById(R.id.grid8);
         tvWinner = findViewById(R.id.tvWinner);
+
     }
 
 
@@ -82,28 +82,44 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         Toast.makeText(this, "id:"+strId, Toast.LENGTH_SHORT).show();
 
         int currentGrid = strId.charAt(11) - '0';
-        if(ultBoard.nextBoard!=currentGrid){
+        Toast.makeText(this, "grid:"+currentGrid, Toast.LENGTH_SHORT).show();
+        if(ultBoard.nextBoard!=currentGrid && ultBoard.nextBoard!=ultBoard.ALL_BOARDS_ALLOWED){ //cant be full cuz we checked that last turn
             img.setClickable(true);
+            Toast.makeText(this, "you cant use that board!", Toast.LENGTH_SHORT).show();
             return;
         }
+
         int[]current = numToLoc(currentGrid);
-        /*
-        int[]current = numToLoc(currentGrid);
-        if(!this.ultBoard.bigBoard[current[0]][current[1]].nowTurn){
-            img.setClickable(true);
-            return;
-        }*/
+        if(ultBoard.nextBoard != ultBoard.ALL_BOARDS_ALLOWED) {
+            GridLayout thisGrid = numToGrid(currentGrid);
+            thisGrid.setBackgroundResource(R.drawable.game_bg);
+        }
+        else{
+            removeHighlights();
+        }
 
         int cell = strId.charAt(12)- '0';
+        Toast.makeText(this, "cell:"+cell, Toast.LENGTH_SHORT).show();
         ultBoard.buttonClicked(img, cell, currentGrid);
         //activates the small board button clocked method,
         //and handles the nextTurn param to set the next board you play at
-        checkSmallWin(current[0], current[1], currentGrid);
+        boolean smallWon = checkSmallWin(current[0], current[1], currentGrid);
+        if(smallWon && ultBoard.nextBoard==currentGrid){
+            ultBoard.setNextBoard(ultBoard.ALL_BOARDS_ALLOWED);
+        }
+        //remove the last selector
 
         //add a selector!
+        if(ultBoard.nextBoard!=ultBoard.ALL_BOARDS_ALLOWED) {
+            GridLayout nextGrid = numToGrid(cell);
+            nextGrid.setBackgroundResource(R.drawable.highlighted_grid_bg);
+        }
+        else{
+            highlightAllBoards();
+        }
         //till here - handeld the id and the wanted board that is the current and next turn
 
-        if(ultBoard.getBoardsFullCount()>4){
+        if(ultBoard.getBoardsFullCount()>=3){
             checkUltimateWinner();
         }
 
@@ -140,43 +156,55 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
     }
 
 
-    private void checkSmallWin(int bRow, int bCol, int gridNum) {
-        if(ultBoard.bigBoard[bRow][bCol].turnCount<=4){
-            return;
+    private boolean checkSmallWin(int bRow, int bCol, int gridNum) {
+        if(ultBoard.bigBoard[bRow][bCol].turnCount<3){
+            return false;
         }
         char chWin = ultBoard.bigBoard[bRow][bCol].checkVictory();
         GridLayout wGrid = numToGrid(gridNum);
         if (chWin != '-') {
+            ImageView bg = new ImageView(this);
             ultBoard.bigBoard[bRow][bCol].setAllPressed();
-            if (chWin == 'X')
-                wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
-            else
-                wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
-
+            if (chWin == 'X') {
+                bg.setImageResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
+                //wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
+            }
+            else {
+                bg.setImageResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
+                //wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
+            }
+            wGrid.removeAllViews();
+            wGrid.addView(bg);
             ultBoard.addToBoardsFullCount();
+            return true;
         }
+        else if(ultBoard.bigBoard[bRow][bCol].finished){
+            wGrid.setBackgroundResource(R.color.black);
+            ultBoard.bigBoard[bRow][bCol].boardWinner = '-';
+            return true;
+        }
+        return false;
         //else if finished (draw) background = '-' ?
 
     }
 
-
-    /*private void setAllBoardsTurnTrue(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if(!this.ultBoard.bigBoard[i][j].finished)
-                    this.ultBoard.bigBoard[i][j].setNowTurn(true);
+    private void highlightAllBoards(){
+        for (int i = 0; i < 9; i++) {
+            if(!ultBoard.isBoardAtNumFinished(i)){
+                GridLayout grid = numToGrid(i);
+                grid.setBackgroundResource(R.drawable.highlighted_grid_bg);
             }
         }
     }
 
-    private void setAllBoardsFalse(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if(this.ultBoard.bigBoard[i][j].isNowTurn())
-                    this.ultBoard.bigBoard[i][j].setNowTurn(false);
+    private void removeHighlights(){
+        for (int i = 0; i < 9; i++) {
+            if(!ultBoard.isBoardAtNumFinished(i)){
+                GridLayout grid = numToGrid(i);
+                grid.setBackgroundResource(R.drawable.game_bg);
             }
         }
-    }*/
+    }
 
 
     @NonNull
