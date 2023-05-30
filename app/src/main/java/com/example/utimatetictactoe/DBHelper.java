@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DBNAME = "login.db";
@@ -121,5 +125,27 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return totalTrophies;
     }
-}
 
+    public ArrayList<Integer> getUserData(){
+        ArrayList<Integer> list = new ArrayList<>();
+        SQLiteDatabase db= this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null, null);
+
+        if(cursor != null && cursor.moveToFirst()) {
+            int i = cursor.getColumnIndex("trophies");
+            list.add(cursor.getInt(i));
+
+            i = cursor.getColumnIndex("gamesPlayed");
+            list.add(cursor.getInt(i));
+
+            i = cursor.getColumnIndex("wins");
+            list.add(cursor.getInt(i));
+
+            i = cursor.getColumnIndex("losses");
+            list.add(cursor.getInt(i));
+        }
+
+        return list;
+    }
+}

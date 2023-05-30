@@ -2,13 +2,12 @@ package com.example.utimatetictactoe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -16,16 +15,14 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    VpAdapter vpAdapter;
     Intent signin;
     static String username;
     static BottomNavigationView bottomNavigationView;
+    static TextView tvTrophies;
 
     HomeFragment homeFragment = new HomeFragment();
     SkinsFragment skinsFragment = new SkinsFragment();
-    FriendsFragment friendsFragment = new FriendsFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.home);
+
+        //tvTrophies = findViewById(R.id.trophiesCount);
     }
 
     public boolean goToPage(@NonNull MenuItem item)
@@ -55,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.shop:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, skinsFragment).commit();
                 return true;
-            case R.id.friends:
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, friendsFragment).commit();
+            case R.id.profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                 return true;
         }
         return false;
@@ -64,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static String getUsername(){
         return username;
+    }
+
+    public static void setTrophies(int trophies){
+
     }
 
 }

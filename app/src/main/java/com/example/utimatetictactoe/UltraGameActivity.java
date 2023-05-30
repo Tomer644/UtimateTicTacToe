@@ -24,7 +24,7 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
     Intent get, back;
     UltBoard ultBoard;
     GridLayout grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8;
-    TextView tvWinner;
+    TextView tvWinner, tvTurn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         grid7 = findViewById(R.id.grid7);
         grid8 = findViewById(R.id.grid8);
         tvWinner = findViewById(R.id.tvWinner);
+        tvTurn = findViewById(R.id.tvTurn);
 
     }
 
@@ -101,6 +102,8 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         int cell = strId.charAt(12)- '0';
         Toast.makeText(this, "cell:"+cell, Toast.LENGTH_SHORT).show();
         ultBoard.buttonClicked(img, cell, currentGrid);
+        if (ultBoard.xTurn) {tvTurn.setText("X turn");}
+        else {tvTurn.setText("O turn");}
         //activates the small board button clocked method,
         //and handles the nextTurn param to set the next board you play at
         boolean smallWon = checkSmallWin(current[0], current[1], currentGrid);
