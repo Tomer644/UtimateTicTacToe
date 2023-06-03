@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity {
 
     Intent signin;
-    static String username;
+    //static String username;
     static BottomNavigationView bottomNavigationView;
     static TextView tvTrophies;
 
@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public static String getUsername(){
-        return username;
-    }
+    //public static String getUsername(){return username;}
 
     public static void setTrophies(int trophies){
 

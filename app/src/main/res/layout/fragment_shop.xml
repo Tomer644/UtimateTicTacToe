@@ -6,10 +6,23 @@
     tools:context=".ShopFragment">
 
     <TextView
+        android:id="@+id/tvShop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="75dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="Shop"
+        android:textSize="30dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Shop fragment"
-        android:textSize="30dp" />
+        android:layout_marginTop="15dp"
+        android:id="@+id/shopRecycler"
+        android:layout_below="@id/tvShop"
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="false"/>
 
 </RelativeLayout>

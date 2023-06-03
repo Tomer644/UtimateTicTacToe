@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.Contract;
 
-public class UltraGameActivity extends AppCompatActivity{//} implements View.OnClickListener, IgameActivity {
+public class UltraGameActivity extends AppCompatActivity{
 
     Button lose, win;
     GridLayout gridLayout;
@@ -83,7 +83,6 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         Toast.makeText(this, "id:"+strId, Toast.LENGTH_SHORT).show();
 
         int currentGrid = strId.charAt(11) - '0';
-        Toast.makeText(this, "grid:"+currentGrid, Toast.LENGTH_SHORT).show();
         if(ultBoard.nextBoard!=currentGrid && ultBoard.nextBoard!=ultBoard.ALL_BOARDS_ALLOWED){ //cant be full cuz we checked that last turn
             img.setClickable(true);
             Toast.makeText(this, "you cant use that board!", Toast.LENGTH_SHORT).show();
@@ -100,7 +99,6 @@ public class UltraGameActivity extends AppCompatActivity{//} implements View.OnC
         }
 
         int cell = strId.charAt(12)- '0';
-        Toast.makeText(this, "cell:"+cell, Toast.LENGTH_SHORT).show();
         ultBoard.buttonClicked(img, cell, currentGrid);
         if (ultBoard.xTurn) {tvTurn.setText("X turn");}
         else {tvTurn.setText("O turn");}

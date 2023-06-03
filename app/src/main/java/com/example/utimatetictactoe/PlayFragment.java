@@ -96,7 +96,6 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
         activityResultLauncher.launch(play);
     }
 
-    //will be in the class
     public void gameOver(char winner, boolean isUltimate){//normal 15-25, ultra 25-35
         boolean pWon = false;
         //importing Random;

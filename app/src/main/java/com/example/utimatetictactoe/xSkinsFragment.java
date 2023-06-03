@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 public class xSkinsFragment extends Fragment {
 
+    static Skin equiped;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

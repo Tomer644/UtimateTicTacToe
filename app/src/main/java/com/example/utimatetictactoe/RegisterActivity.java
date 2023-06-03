@@ -1,5 +1,6 @@
 package com.example.utimatetictactoe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -12,6 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class RegisterActivity extends AppCompatActivity {
 
     static EditText etUsername;
@@ -20,6 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
     Button btn1, btn2, btn3;
     DBHelper DB;
     AlertDialog ad;
+    private FirebaseFirestore firestore;
+    public List<Skin>skins;
+    Map<String, Object>data;
+    //Map<String, Boolean> skins;
+    //ArrayList<Skin> skins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
         testpas=findViewById(R.id.testpas);
         DB = new DBHelper(this);
 
+        firestore = FirebaseFirestore.getInstance();
+        skins = new ArrayList<>();
+        makeSkinsList();
+        data = new HashMap<String, Object>();
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +63,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String repass=testpas.getText().toString();
                 String user = etUsername.getText().toString();
 
-                if (TextUtils.isEmpty(etUsername.getText().toString()) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
+                //map.put("username", user);
+                //map.put("skins", skins);
+
+                if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
                     Toast.makeText(RegisterActivity.this,"All fields Required",Toast.LENGTH_SHORT).show();
                 else {
                     if (pass.equals(repass)){
@@ -49,10 +74,25 @@ public class RegisterActivity extends AppCompatActivity {
                         if (checkuser==false){
                             Boolean insert = DB.insertData(user,pass);
                             if (insert==true){
-                                Toast.makeText(RegisterActivity.this,"Registered Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                //intent.putExtra("username", etUsername.getText().toString());
-                                startActivity(intent);
+                                data.put(user, skins);
+                                firestore.collection("users").document(etUsername.getText().toString()).set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+
+                                            Toast.makeText(RegisterActivity.this,"Registered Successfully", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            //intent.putExtra("username", etUsername.getText().toString());
+                                            startActivity(intent);
+
+                                        }
+                                        else//remove from sql
+                                        {
+                                            DB.deleteUser(user);
+                                            Toast.makeText(RegisterActivity.this,"firebase bad, deleted from sql", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
                             else {
                                 Toast.makeText(RegisterActivity.this,"Registered Failed",Toast.LENGTH_SHORT).show();
@@ -116,6 +156,35 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    public void makeSkinsList(){
+        skins.add(new Skin("X0",  true, SkinType.common));
+        skins.add(new Skin("O0", true, SkinType.common));
+        for (int i = 1; i < 6; i++) {
+            //List<Skin>skins = new ArrayList<>();
+            SkinType skinType;
+            if(i<3) skinType = SkinType.rare;
+            else if (i<4) skinType = SkinType.epic;
+            else skinType = SkinType.legendary;
+            // 0  c
+            //1,2 r
+            //3 e
+            //4, 5 l
+            Skin skinX = new Skin("X"+i,  false, skinType);
+            skins.add(skinX);
+            Skin skinO = new Skin("O"+i, false, skinType);
+            skins.add(skinO);
+        }
+    }
+
+    @NonNull
+    public static List<Skin> getDefaultSkinsList(){
+        List<Skin>list = new ArrayList<>();
+        list.add(new Skin("X0",  true, SkinType.common));
+        list.add(new Skin("O0", true, SkinType.common));
+        return list;
+    }
+
+    @NonNull
     public static String getUsername()
     {
         return etUsername.getText().toString();

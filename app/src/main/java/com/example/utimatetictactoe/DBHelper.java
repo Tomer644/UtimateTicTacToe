@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -47,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("gamesPlayed", 0);
         values.put("wins", 0);
         values.put("losses", 0);
-
+        //skins own?
 
         long result= db.insert(TABLE_NAME,null, values);
         if(result==-1)
@@ -126,11 +127,37 @@ public class DBHelper extends SQLiteOpenHelper {
             return totalTrophies;
     }
 
-    public ArrayList<Integer> getUserData(){
+    public boolean buySkin(String username, int price){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String query = "SELECT trophies FROM "+TABLE_NAME+" WHERE username=?";
+        Cursor cursor = db.rawQuery(query, new String[] {username});
+
+        int currentTrophies;
+        if(cursor != null && cursor.moveToFirst()) {
+            int trophiesIndex = cursor.getColumnIndex("trophies");
+            currentTrophies = cursor.getInt(trophiesIndex);
+        }
+        else return false;
+
+        if(currentTrophies<price)
+            return false;
+
+        currentTrophies-=price;
+        cv.put("trophies", currentTrophies);
+        int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
+        cursor.close();
+
+        if (result == -1)
+            return false;
+        return true;
+    }
+
+    public ArrayList<Integer> getUserData(String username){
         ArrayList<Integer> list = new ArrayList<>();
         SQLiteDatabase db= this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null, null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" where username=?",new String[] {username });
 
         if(cursor != null && cursor.moveToFirst()) {
             int i = cursor.getColumnIndex("trophies");
@@ -145,7 +172,13 @@ public class DBHelper extends SQLiteOpenHelper {
             i = cursor.getColumnIndex("losses");
             list.add(cursor.getInt(i));
         }
-
         return list;
+    }
+
+    public boolean deleteUser(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long res = db.delete(TABLE_NAME, "username=?", new String[]{username});
+        if(res==-1){ return false;}
+        else{ return true; }
     }
 }
