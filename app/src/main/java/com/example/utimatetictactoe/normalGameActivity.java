@@ -136,4 +136,11 @@ public class normalGameActivity extends AppCompatActivity{
         finish();
     }
 
+    public void retrnToHome(View view) {
+        back = new Intent();
+        back.putExtra("ult", false);
+        back.putExtra("winner", '-');
+        setResult(RESULT_OK, back);
+        finish();
+    }
 }

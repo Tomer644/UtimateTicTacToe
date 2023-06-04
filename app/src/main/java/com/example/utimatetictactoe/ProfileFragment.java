@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
         tvGames.setText(tvGames.getText()+" "+data.get(1));
         tvWins.setText(tvWins.getText()+" "+data.get(2));
         tvLosses.setText(tvLosses.getText()+" "+data.get(3));
-        //tvSkinsOwn.setText(tvSkinsOwn.getText()+""+data.get());
+        tvSkinsOwn.setText(tvSkinsOwn.getText()+""+data.get(4));
 
         return v;
     }

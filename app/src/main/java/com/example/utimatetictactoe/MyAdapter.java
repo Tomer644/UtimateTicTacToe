@@ -53,17 +53,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
                 break;
             case rare:
                 holder.skin_type.setText("Rare");
-                holder.skin_type.setTextColor(Color.parseColor("#ffa21e"));
+                //holder.skin_type.setTextColor(Color.parseColor("#ffa21e"));
                 holder.cardview.setBackgroundResource(R.drawable.rare_skin_bg);
                 break;
             case epic:
                 holder.skin_type.setText("Epic");
-                holder.skin_type.setTextColor(Color.parseColor("#a400d3"));
+                //holder.skin_type.setTextColor(Color.parseColor("#a400d3"));
                 holder.cardview.setBackgroundResource(R.drawable.epic_skin_bg);
                 break;
             case legendary:
                 holder.skin_type.setText("Legendary");
-                holder.skin_type.setTextColor(Color.parseColor("#00fff7"));
+                //holder.skin_type.setTextColor(Color.parseColor("#00fff7"));
                 holder.cardview.setBackgroundResource(R.drawable.legendary_skin_bg);
                 break;
         }

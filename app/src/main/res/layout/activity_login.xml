@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signinbg"
+    android:background="@drawable/profile_top_bg"
     android:minWidth="400dp"
     android:minHeight="600dp">
 <!--    tools:context=".LoginActivity">-->

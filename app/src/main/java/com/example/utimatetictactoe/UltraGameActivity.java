@@ -288,5 +288,13 @@ public class UltraGameActivity extends AppCompatActivity{
         setResult(RESULT_OK, back);
         finish();
     }
+
+    public void retrnToHome(View view) {
+        back = new Intent();
+        back.putExtra("ult", true);
+        back.putExtra("winner", '-');
+        setResult(RESULT_OK, back);
+        finish();
+    }
 }
 

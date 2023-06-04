@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //creates the table with the key
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table users (username TEXT primary key, password TEXT, trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER)");
+        db.execSQL("create table users (username TEXT primary key, password TEXT, trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER, skins_own INTEGER)");
 
     }
 
@@ -48,6 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("gamesPlayed", 0);
         values.put("wins", 0);
         values.put("losses", 0);
+        values.put("skins_own", 2);
         //skins own?
 
         long result= db.insert(TABLE_NAME,null, values);
@@ -133,10 +134,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT trophies FROM "+TABLE_NAME+" WHERE username=?";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
-        int currentTrophies;
+        int currentTrophies, currentSkins;
         if(cursor != null && cursor.moveToFirst()) {
             int trophiesIndex = cursor.getColumnIndex("trophies");
             currentTrophies = cursor.getInt(trophiesIndex);
+
+            int skinsIndex = cursor.getColumnIndex("skins_own");
+            currentSkins = cursor.getInt(skinsIndex);
         }
         else return false;
 
@@ -145,6 +149,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         currentTrophies-=price;
         cv.put("trophies", currentTrophies);
+        currentSkins++;
+        cv.put("skins_own", currentSkins);
         int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
         cursor.close();
 
@@ -170,6 +176,9 @@ public class DBHelper extends SQLiteOpenHelper {
             list.add(cursor.getInt(i));
 
             i = cursor.getColumnIndex("losses");
+            list.add(cursor.getInt(i));
+
+            i = cursor.getColumnIndex("skins_own");
             list.add(cursor.getInt(i));
         }
         return list;
