@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Contract;
 
 public class UltraGameActivity extends AppCompatActivity{
 
-    Button lose, win;
+//    Button lose, win;
     GridLayout gridLayout;
     Intent get, back;
     UltBoard ultBoard;
@@ -60,18 +60,18 @@ public class UltraGameActivity extends AppCompatActivity{
 
 
     //@Override
-    public void onClick(View view) {
-        back = new Intent();
-        back.putExtra("ult", true);
-        if(view.equals(win)) {
-            back.putExtra("winner", 'X');
-        }
-        else {
-            back.putExtra("winner", 'O');
-        }
-        setResult(RESULT_OK, back);
-        finish();
-    }
+//    public void onClick(View view) {
+//        back = new Intent();
+//        back.putExtra("ult", true);
+//        if(view.equals(win)) {
+//            back.putExtra("winner", 'X');
+//        }
+//        else {
+//            back.putExtra("winner", 'O');
+//        }
+//        setResult(RESULT_OK, back);
+//        finish();
+//    }
 
 
     public void playerTap(View view) {

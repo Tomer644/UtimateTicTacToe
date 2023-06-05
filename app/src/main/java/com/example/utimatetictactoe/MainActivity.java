@@ -15,10 +15,8 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    Intent signin;
-    //static String username;
+
     static BottomNavigationView bottomNavigationView;
-    static TextView tvTrophies;
 
     HomeFragment homeFragment = new HomeFragment();
     SkinsFragment skinsFragment = new SkinsFragment();
@@ -28,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //signin = getIntent();
-        //username = signin.getStringExtra("username");
 
         bottomNavigationView = findViewById(R.id.nav_menu);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
@@ -42,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        //tvTrophies = findViewById(R.id.trophiesCount);
     }
 
     public boolean goToPage(@NonNull MenuItem item)
@@ -61,10 +55,5 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    //public static String getUsername(){return username;}
-
-    public static void setTrophies(int trophies){
-
-    }
 
 }

@@ -17,10 +17,10 @@ import android.widget.Toast;
 public class normalGameActivity extends AppCompatActivity{
 
     //Button lose, win;
-    Intent get, back;
-    Board board;
-    ImageView winner;
-    TextView tvWinner;
+    protected Intent get, back;
+    protected Board board;
+    protected ImageView winner;
+    protected TextView tvWinner;
     //int turnCount = 0;
 
     @Override

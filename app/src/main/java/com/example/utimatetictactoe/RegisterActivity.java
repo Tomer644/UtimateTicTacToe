@@ -176,21 +176,21 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    @NonNull
-    public static List<Skin> getDefaultSkinsList(){
-        List<Skin>list = new ArrayList<>();
-        list.add(new Skin("X0",  true, SkinType.common));
-        list.add(new Skin("O0", true, SkinType.common));
-        return list;
-    }
+//    @NonNull
+//    public static List<Skin> getDefaultSkinsList(){
+//        List<Skin>list = new ArrayList<>();
+//        list.add(new Skin("X0",  true, SkinType.common));
+//        list.add(new Skin("O0", true, SkinType.common));
+//        return list;
+//    }
 
     @NonNull
     public static String getUsername()
     {
         return etUsername.getText().toString();
     }
-    public static void setUsername(String username)
+    /*private static void setUsername(String username)
     {
         etUsername.setText(username);
-    }
+    }*/
 }

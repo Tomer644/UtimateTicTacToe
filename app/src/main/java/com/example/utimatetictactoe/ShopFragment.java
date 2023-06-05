@@ -117,8 +117,6 @@ public class ShopFragment extends Fragment {
         return SkinType.common;
     }
 
-    public void buySkin(View view){
-
-    }
+    //public void buySkin(View view){}
 
 }

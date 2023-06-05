@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class BoardButton{// implements View.OnClickListener{
+public class BoardButton{
     protected ImageButton img_btn; @NonNull
     protected String id;
     protected char player;

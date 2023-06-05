@@ -130,15 +130,15 @@ public class UltBoard {
         return loc;
     }
 
-    public boolean boardFull(){
-        for (int i = 0; i < this.bigBoard.length; i++) {
-            for (int j = 0; j < this.bigBoard[0].length; j++) {
-                if(!this.bigBoard[i][j].finished)
-                    return false;
-            }
-        }
-        return true;
-    }
+//    public boolean boardFull(){
+//        for (int i = 0; i < this.bigBoard.length; i++) {
+//            for (int j = 0; j < this.bigBoard[0].length; j++) {
+//                if(!this.bigBoard[i][j].finished)
+//                    return false;
+//            }
+//        }
+//        return true;
+//    }
 
     //uses the same algorithm for the normal board checkVictory() func, just changed the variable names and etc
     public char checkTotalVictory() {
