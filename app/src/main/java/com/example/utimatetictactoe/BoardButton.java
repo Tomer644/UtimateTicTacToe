@@ -49,32 +49,5 @@ public class BoardButton{// implements View.OnClickListener{
         this.img_btn = imageButton;
     }
 
-    /*public void clickButton(@NonNull Board board){
-        this.isPressed = true;
-        this.img.setClickable(false);
-        if(board.Xturn){
-            this.player = 'x';
-            this.img.setBackground(Drawable.createFromPath(board.xSkinPath));
-        }
-        else{
-            this.player = 'o';
-            this.img.setBackground(Drawable.createFromPath(board.oSkinPath));
-        }
-    }*/
-
-    /*
-    @Override
-    public void onClick(View view) {
-        this.isPressed = true;
-        this.img_btn.setClickable(false);
-//        if(board.Xturn){
-//            this.player = 'x';
-//            view.setBackground(Drawable.createFromPath(board.xSkinPath));
-//        }
-//        else{
-//            this.player = 'o';
-//            view.setBackground(Drawable.createFromPath(board.oSkinPath));
-//        }
-    }*/
 
 }

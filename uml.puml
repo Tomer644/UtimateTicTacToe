@@ -1,0 +1,232 @@
+@startuml
+class com.example.utimatetictactoe.HomeFragment {
+~ ImageButton ibx
+~ Button play
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void logout(View)
++ void onClick(View)
++ void play(View)
+}
+class com.example.utimatetictactoe.ShopFragment {
+~ RecyclerView recyclerView
+~ StorageReference storageReference
+~ FirebaseFirestore firestore
+~ ProgressDialog progressDialog
+~ MyAdapter adapter
+~ List<Skin> skinsList
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void startRecyclerView(List<Skin>)
++ SkinType setTypeByPrice(long)
++ void buySkin(View)
+}
+class com.example.utimatetictactoe.BoardButton {
+# ImageButton img_btn
+# String id
+# char player
+# boolean isPressed
++ String getId()
++ void setId(String)
++ char getPlayer()
++ void setPlayer(char)
++ boolean isPressed()
++ void setPressed(boolean)
++ void setImg(ImageButton)
+}
+class com.example.utimatetictactoe.normalGameActivity {
+~ Intent get
+~ Board board
+~ ImageView winner
+~ TextView tvWinner
+# void onCreate(Bundle)
++ void playerTap(View)
++ void checkWinner()
++ void goBack(char)
++ void retrnToHome(View)
+}
+class com.example.utimatetictactoe.Skin {
+- String id
+- boolean owned
+- SkinType skinType
+- int price
++ String getId()
++ void setId(String)
++ void setPriceByType()
++ boolean isOwned()
++ void setOwned(boolean)
++ int getPrice()
++ void setPrice(int)
++ SkinType getSkinType()
++ void setSkinType(SkinType)
+}
+class com.example.utimatetictactoe.Board {
+# BoardButton[][] board
+# int xSkinPath
+# int oSkinPath
+# int turnCount
+# int boardId
+# char boardWinner
+# boolean finished
+- void createButtons()
++ void setAllPressed()
++ void buttonClicked(ImageButton,int,int,boolean)
++ char checkVictory()
+}
+class com.example.utimatetictactoe.PlayFragment {
+~ Button btnNormal
+~ Switch playerSwitch
+~ ActivityResultLauncher<Intent> activityResultLauncher
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onClick(View)
++ void gameOver(char,boolean)
+}
+class com.example.utimatetictactoe.UltraGameActivity {
+~ Button lose
+~ GridLayout gridLayout
+~ Intent get
+~ UltBoard ultBoard
+~ GridLayout grid0
+~ TextView tvWinner
+# void onCreate(Bundle)
++ void onClick(View)
++ void playerTap(View)
+- void checkUltimateWinner()
+- boolean checkSmallWin(int,int,int)
+- void highlightAllBoards()
+- void removeHighlights()
+- int[] numToLoc(int)
+- GridLayout numToGrid(int)
++ void goBack(char)
++ void retrnToHome(View)
+}
+class com.example.utimatetictactoe.UltBoard {
+# Board[][] bigBoard
+# int nextBoard
+# int boardsFullCount
+# boolean xTurn
++ {static} int ALL_BOARDS_ALLOWED
+- void createBoards(int,int)
++ void buttonClicked(ImageButton,int,int)
++ boolean isBoardAtNumFinished(int)
++ int getNextBoard()
++ void setNextBoard(int)
++ int getBoardsFullCount()
++ void addToBoardsFullCount()
+- int[] numToLoc(int)
++ boolean boardFull()
++ char checkTotalVictory()
+}
+class com.example.utimatetictactoe.xSkinsFragment {
+~ {static} Skin equiped
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.utimatetictactoe.MainActivity {
+~ Intent signin
+~ {static} BottomNavigationView bottomNavigationView
+~ {static} TextView tvTrophies
+~ HomeFragment homeFragment
+~ SkinsFragment skinsFragment
+~ ProfileFragment profileFragment
+# void onCreate(Bundle)
++ boolean goToPage(MenuItem)
++ {static} void setTrophies(int)
+}
+class com.example.utimatetictactoe.SplashScreen {
+~ TextView appname
+~ LottieAnimationView lottie
+# void onCreate(Bundle)
+}
+class com.example.utimatetictactoe.VpAdapter {
++ Fragment createFragment(int)
++ int getItemCount()
+}
+class com.example.utimatetictactoe.oSkinsFragment {
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.utimatetictactoe.MyAdapter {
+~ Context context
+~ List<Skin> skins
++ MyViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(MyViewHolder,int)
++ int getItemCount()
+}
+class com.example.utimatetictactoe.RegisterActivity {
+~ {static} EditText etUsername
+~ EditText password
+~ EditText testpas
+~ Button btn1
+~ DBHelper DB
+~ AlertDialog ad
+- FirebaseFirestore firestore
++ List<Skin> skins
+~ Map<String,Object> data
+# void onCreate(Bundle)
++ void makeSkinsList()
++ {static} List<Skin> getDefaultSkinsList()
++ {static} String getUsername()
++ {static} void setUsername(String)
+}
+class com.example.utimatetictactoe.DBHelper {
++ {static} String DBNAME
+- {static} String TABLE_NAME
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ boolean insertData(String,String)
++ boolean checkusername(String)
++ boolean checkusernamepassword(String,String)
++ int updateData(String,int,boolean)
++ boolean buySkin(String,int)
++ ArrayList<Integer> getUserData(String)
++ boolean deleteUser(String)
+}
+class com.example.utimatetictactoe.MyViewHolder {
+~ ImageView skinImg
+~ TextView skinId
+~ Button btnBuy
+~ CardView cardview
+}
+class com.example.utimatetictactoe.ProfileFragment {
+~ DBHelper db
+~ TextView tvUsername
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.utimatetictactoe.LoginActivity {
+~ EditText username
+~ Button btn3
+~ DBHelper DB
+# void onCreate(Bundle)
+}
+class com.example.utimatetictactoe.SkinsFragment {
+~ {static} TabLayout tabLayout
+~ {static} ViewPager2 viewPager2
+~ VpAdapter vpAdapter
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void selectSkinPage(int)
+}
+enum com.example.utimatetictactoe.SkinType {
++  common
++  rare
++  epic
++  legendary
+}
+
+
+com.example.utimatetictactoe.OnClickListener <|.. com.example.utimatetictactoe.HomeFragment
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.HomeFragment
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.ShopFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.normalGameActivity
+com.example.utimatetictactoe.OnClickListener <|.. com.example.utimatetictactoe.PlayFragment
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.PlayFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.UltraGameActivity
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.xSkinsFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.SplashScreen
+androidx.viewpager2.adapter.FragmentStateAdapter <|-- com.example.utimatetictactoe.VpAdapter
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.oSkinsFragment
+com.example.utimatetictactoe.Adapter <|-- com.example.utimatetictactoe.MyAdapter
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.RegisterActivity
+android.database.sqlite.SQLiteOpenHelper <|-- com.example.utimatetictactoe.DBHelper
+com.example.utimatetictactoe.ViewHolder <|-- com.example.utimatetictactoe.MyViewHolder
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.ProfileFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.utimatetictactoe.LoginActivity
+androidx.fragment.app.Fragment <|-- com.example.utimatetictactoe.SkinsFragment
+@enduml

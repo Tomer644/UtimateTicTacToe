@@ -19,14 +19,13 @@ import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.Contract;
 
-public class Board {//implements View.OnClickListener {
+public class Board {
     protected BoardButton[][] board;
     protected int xSkinPath;
     protected int oSkinPath;
     //protected boolean Xturn;
     protected int turnCount;
 
-    //private Context context;
     //for the big game:
     protected int boardId;
     protected char boardWinner; //maybe useless
@@ -35,15 +34,11 @@ public class Board {//implements View.OnClickListener {
 
     public Board(int xPath, int oPath) {
         this.board = new BoardButton[3][3];
-        //this.board = new ImageView[3][3];
-        /* with imageButton:
-        this.x.setImageResource(int xSkinId);
-        this.o.setImageResource(int oSkinId);*/
+
         this.xSkinPath = xPath;
         this.oSkinPath = oPath;
         //this.Xturn = true;
         this.turnCount = 0;
-        //this.context = context;
         createButtons();
 
         //this.boardWinner = '-';
@@ -60,23 +55,6 @@ public class Board {//implements View.OnClickListener {
         }
     }
 
-//    public View getBoardView(Context THIS){
-//        TableLayout tl = new TableLayout(THIS);
-//        for (int i = 0; i < 3; i++) {
-//            TableRow tr = new TableRow(THIS);
-//            for (int j = 0; j < 3; j++) {
-//                ImageButton ib = new ImageButton(THIS);
-//                ib.setBackgroundColor(Color.GRAY);
-//                //ib.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//                //ib.setPadding(5,5,5,5);
-//                tr.addView(ib);
-//            }
-//            tl.addView(tr);
-//        }
-//        tl.setShrinkAllColumns(true);
-//        tl.setStretchAllColumns(true);
-//        return tl;
-//    }
 
     public void setAllPressed(){
         for (int i = 0; i < this.board.length; i++) {
@@ -92,40 +70,17 @@ public class Board {//implements View.OnClickListener {
             return;
         }
         this.board[row][col].setPressed(true);
-        if(xTurn){ //this.Xturn(true) = turnCount%2==0
+        if(xTurn){
             this.board[row][col].player = 'X';
             view.setImageResource(this.xSkinPath);
-            //this.Xturn = false;
         }
         else{
             this.board[row][col].player = 'O';
             view.setImageResource(this.oSkinPath);
-            //this.Xturn = true;
         }
         this.turnCount++;
 
     }
-
-    @Nullable
-    @Contract(pure = true)
-    private int[] findPressedButton(View v){
-        int[]loc = new int[2];
-        for (int i = 0; i < this.board.length; i++){
-            for (int j = 0; j < this.board[0].length; j++){
-                if(this.board[i][j].equals(v)){
-                    loc[0]=i;
-                    loc[1]=j;
-                    return loc;
-                }
-            }
-        }
-        return null;
-    }
-
-    /*public void setTurn(boolean xturn)
-    {
-        this.Xturn = xturn;
-    }*/
 
 
     public char checkVictory() {
