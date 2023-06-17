@@ -8,7 +8,7 @@
     android:background="@drawable/profile_top_bg">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewPfp"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
@@ -26,9 +26,9 @@
         android:text="username"
         android:textSize="30dp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/imageViewPfp"
+        app:layout_constraintStart_toStartOf="@+id/imageViewPfp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPfp" />
 
 
     <TextView
@@ -141,6 +141,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tvLosses" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnUploadImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPfp" />
 
     <!--    trophies, games played, wins, losses, skins own?-->
 <!-- dark purple theme colo - #1B023B -->

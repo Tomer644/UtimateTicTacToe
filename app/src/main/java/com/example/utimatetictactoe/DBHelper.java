@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //creates the table with the key
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table users (username TEXT primary key, password TEXT, trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER, skins_own INTEGER)");
+        db.execSQL("create table users (username TEXT primary key, password TEXT, trophies INTEGER, gamesPlayed INTEGER, wins INTEGER, losses INTEGER, skins_own INTEGER, user_pfps INTEGER)");
 
     }
 
@@ -49,7 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("wins", 0);
         values.put("losses", 0);
         values.put("skins_own", 2);
-        //skins own?
+        //int user_pfps
+        values.put("user_pfps", 0);
 
         long result= db.insert(TABLE_NAME,null, values);
         if(result==-1)
@@ -131,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean buySkin(String username, int price){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        String query = "SELECT trophies FROM "+TABLE_NAME+" WHERE username=?";
+        String query = "SELECT * FROM "+TABLE_NAME+" WHERE username=?";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
         int currentTrophies, currentSkins;
@@ -163,7 +164,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Integer> list = new ArrayList<>();
         SQLiteDatabase db= this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" where username=?",new String[] {username });
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" where username=?",new String[] {username});
 
         if(cursor != null && cursor.moveToFirst()) {
             int i = cursor.getColumnIndex("trophies");
@@ -180,6 +181,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
             i = cursor.getColumnIndex("skins_own");
             list.add(cursor.getInt(i));
+
+            i = cursor.getColumnIndex("user_pfps");
+            list.add(cursor.getInt(i));
         }
         return list;
     }
@@ -189,5 +193,27 @@ public class DBHelper extends SQLiteOpenHelper {
         long res = db.delete(TABLE_NAME, "username=?", new String[]{username});
         if(res==-1){ return false;}
         else{ return true; }
+    }
+
+    public boolean userUploadedPfp(String username){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String query = "SELECT user_pfps FROM "+TABLE_NAME+" WHERE username=?";
+        Cursor cursor = db.rawQuery(query, new String[] {username});
+
+        if(cursor != null && cursor.moveToFirst()) {
+            int i = cursor.getColumnIndex("user_pfps");
+            int pfps = (cursor.getInt(i));
+            pfps++;
+            cv.put("user_pfps", pfps);
+        }
+        //else return false;
+
+        int result = db.update(TABLE_NAME, cv, "username=?", new String[]{username});
+        cursor.close();
+
+        if (result == -1)
+            return false;
+        return true;
     }
 }

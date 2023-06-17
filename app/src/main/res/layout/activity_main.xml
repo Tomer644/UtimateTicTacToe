@@ -7,6 +7,28 @@
     tools:context=".MainActivity"
     android:orientation="horizontal">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/btnMusic"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="323dp"
+            android:background="@drawable/ic_baseline_volume_up_24" />
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -19,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu" />
+
 <!--        android:background="#FF03DAC5"/>-->
 
 </RelativeLayout>

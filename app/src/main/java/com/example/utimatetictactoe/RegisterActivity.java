@@ -157,8 +157,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void makeSkinsList(){
-        skins.add(new Skin("X0",  true, SkinType.common));
-        skins.add(new Skin("O0", true, SkinType.common));
+        skins.add(new Skin("Xs0",  true, SkinType.common));
+        skins.add(new Skin("Os0", true, SkinType.common));
         for (int i = 1; i < 6; i++) {
             //List<Skin>skins = new ArrayList<>();
             SkinType skinType;
@@ -169,9 +169,9 @@ public class RegisterActivity extends AppCompatActivity {
             //1,2 r
             //3 e
             //4, 5 l
-            Skin skinX = new Skin("X"+i,  false, skinType);
+            Skin skinX = new Skin("Xs"+i,  false, skinType);
             skins.add(skinX);
-            Skin skinO = new Skin("O"+i, false, skinType);
+            Skin skinO = new Skin("Os"+i, false, skinType);
             skins.add(skinO);
         }
     }

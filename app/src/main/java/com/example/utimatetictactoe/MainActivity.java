@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment = new HomeFragment();
     SkinsFragment skinsFragment = new SkinsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+
+    //Intent serviceIntent;
+    boolean isMediaOn;
+    ImageButton musicBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.home);
 
+        //serviceIntent = new Intent(getApplicationContext(), MyStartedService.class);
+
+        isMediaOn = true;
+        musicBtn = findViewById(R.id.btnMusic);
+        musicBtn.setOnClickListener(this::mediaClick);
+        //startService(serviceIntent);
+        musicBtn.setBackgroundResource(R.drawable.ic_baseline_volume_up_24);
+        //change photo
     }
 
     public boolean goToPage(@NonNull MenuItem item)
@@ -53,6 +69,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    public void mediaClick(View v){
+        if(isMediaOn){
+            stopService(SplashScreen.serviceIntent);
+            isMediaOn = false;
+            musicBtn.setBackgroundResource(R.drawable.ic_baseline_volume_off_24);
+        }
+        else{
+            startService(new Intent(getApplicationContext(), MyStartedService.class));
+            isMediaOn = true;
+            musicBtn.setBackgroundResource(R.drawable.ic_baseline_volume_up_24);
+        }
     }
 
 

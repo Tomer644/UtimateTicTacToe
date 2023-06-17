@@ -2,9 +2,11 @@ package com.example.utimatetictactoe;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -67,7 +69,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
                 holder.cardview.setBackgroundResource(R.drawable.legendary_skin_bg);
                 break;
         }
-        //holder.skinImg.setImageResource(skins.get(position).g);
+        Bitmap bitmap = ShopFragment.photos.get(skins.get(position).getId());
+        if(bitmap==null)
+            Toast.makeText(context.getApplicationContext(), "null", Toast.LENGTH_SHORT);
+        else
+            holder.skinImg.setImageBitmap(bitmap);
     }
 
     @Override
