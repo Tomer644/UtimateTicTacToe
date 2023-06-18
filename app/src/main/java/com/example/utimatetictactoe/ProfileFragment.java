@@ -38,13 +38,13 @@ import java.util.SimpleTimeZone;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
     DBHelper db;
     TextView tvUsername, tvTrophies, tvGames, tvWins, tvLosses, tvSkinsOwn;
     ImageView pfp;
 
     Button add;
-    int pfps_uploaded;
+    public int pfps_uploaded;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +62,9 @@ public class ProfileFragment extends Fragment {
         tvSkinsOwn = v.findViewById(R.id.tvSkinsOwn);
 
         pfp = v.findViewById(R.id.imageViewPfp);
-        pfp.setOnClickListener(this::tapImage);
+        pfp.setOnClickListener(this);
         add = v.findViewById(R.id.btnUploadImg);
-        add.setOnClickListener(this::addImage);
+        add.setOnClickListener(this);//::addImage);
 
         DBHelper db = new DBHelper(this.getContext());
 
@@ -81,18 +81,46 @@ public class ProfileFragment extends Fragment {
         return v;
     }
 
-    public void tapImage(View view) {
+//    public void tapImage(View view) {
+//        Bundle args = new Bundle();
+//        if(view == pfp){
+//            RetrivePfpFragment fragment = new RetrivePfpFragment();
+//            args.putInt("pfps_uploaded", pfps_uploaded);
+//            fragment.setArguments(args);
+//            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+//        }
+//        if(view == add){
+//            UploadImageFragment fragment = new UploadImageFragment();
+//            args.putInt("pfps_uploaded", pfps_uploaded);
+//            fragment.setArguments(args);
+//            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+//        }
+//
+//    }
+//
+//    private void addImage(View view){
+//        Bundle args = new Bundle();
+//        UploadImageFragment fragment = new UploadImageFragment();
+//        args.putInt("pfps_uploaded", pfps_uploaded);
+//        fragment.setArguments(args);
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+//    }
 
 
-    }
-
-    private void addImage(View view){
+    @Override
+    public void onClick(View view) {
         Bundle args = new Bundle();
-        UploadImageFragment fragment = new UploadImageFragment();
-        args.putInt("pfps_uploaded", pfps_uploaded);
-        fragment.setArguments(args);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        if(view == pfp){
+            RetrivePfpFragment fragment = new RetrivePfpFragment();
+            args.putInt("pfps_uploaded", pfps_uploaded);
+            fragment.setArguments(args);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        }
+        else if(view == add){
+            UploadImageFragment fragment = new UploadImageFragment();
+            args.putInt("pfps_uploaded", pfps_uploaded);
+            fragment.setArguments(args);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        }
     }
-
-
 }

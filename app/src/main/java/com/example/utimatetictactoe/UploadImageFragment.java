@@ -77,7 +77,7 @@ public class UploadImageFragment extends Fragment {
             Toast.makeText(getActivity(), "_pfp_" + pfps_uploaded, Toast.LENGTH_SHORT).show();
 
             //String fileName = format.format(now);
-            String fileName = RegisterActivity.getUsername()+"_pfp_" + pfps_uploaded;
+            String fileName = RegisterActivity.getUsername()+"_pfp_" + pfps_uploaded + ".jpeg";
             storageReference = FirebaseStorage.getInstance().getReference("image/").child(fileName);
             if(imageUri!=null) {
                 storageReference.putFile(imageUri)

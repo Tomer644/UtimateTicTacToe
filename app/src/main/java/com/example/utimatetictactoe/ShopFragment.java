@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements ShopInterface{ //implement
 
     RecyclerView recyclerView;
     StorageReference storageReference;
@@ -39,9 +39,13 @@ public class ShopFragment extends Fragment {
     FirebaseFirestore firestore;
     ProgressDialog progressDialog;
     MyAdapter adapter;
-    List<Skin>skinsList;
+
+    List<Skin>skinsList;//skins object list
+
     int count;
-    public static Map<String, Bitmap>photos;
+
+    public static Map<String, Bitmap>photos;//skins photos
+    DBHelper db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +62,9 @@ public class ShopFragment extends Fragment {
 
         /*List<Skin>xOwned = new ArrayList<>();
         List<Skin>oOwned = new ArrayList<>();*/
+
+        photos = new HashMap<>();
+        db = new DBHelper(getContext());
 
         firestore = FirebaseFirestore.getInstance();
         DocumentReference doc = firestore.collection("users").document(RegisterActivity.getUsername());
@@ -83,10 +90,10 @@ public class ShopFragment extends Fragment {
                         //Toast.makeText(getActivity(), ""+skin, Toast.LENGTH_SHORT).show();
                         skinsList.add(skin);
 
-                        storageReference = FirebaseStorage.getInstance().getReference().child("Skins/");
+                        storageReference = FirebaseStorage.getInstance().getReference("Skins/"+skinsList.get(count).getId()+".png");//+skinsList.get(count).getId());//.child("Skins/");
                         try {
                             File localFile = File.createTempFile(skinsList.get(count).getId() + "", ".png");
-                            Toast.makeText(getActivity(), "file "+count+" created", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "file "+skinsList.get(count).getId()+" created", Toast.LENGTH_SHORT).show();
                             storageReference.getFile(localFile)
                                     .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                                         @Override
@@ -94,7 +101,7 @@ public class ShopFragment extends Fragment {
                                             if (task.isSuccessful()) {
                                                 Bitmap tempbitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                                                 photos.put(skin.getId(), tempbitmap);
-                                                Toast.makeText(getActivity(), count+" done", Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(getActivity(), count+" done", Toast.LENGTH_SHORT).show();
                                                 if (progressDialog.isShowing() && count == objectList.size() - 1) {
                                                     progressDialog.dismiss();
                                                     startRecyclerView(skinsList);
@@ -128,7 +135,7 @@ public class ShopFragment extends Fragment {
 
     private void startRecyclerView(List<Skin>skins){
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new MyAdapter(getContext(),skins));
+        recyclerView.setAdapter(new MyAdapter(getContext(),skins, this));
         recyclerView.setHasFixedSize(true);
     }
     
@@ -166,6 +173,45 @@ public class ShopFragment extends Fragment {
         return SkinType.common;
     }
 
-    //public void buySkin(View view){}
+    @Override
+    public void onItemClick(int position) {
+        boolean canBuy = db.buySkin(RegisterActivity.getUsername(), skinsList.get(position).getPrice());
+        //FirebaseFirestore firebaseFirestore = firestore = FirebaseFirestore.getInstance();
+        if(canBuy){
+            progressDialog = new ProgressDialog(this.getContext());
+            progressDialog.setMessage("updating data...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            skinsList.get(position).setOwned(true);
+            //Toast.makeText(getContext(), "Bought Skin", Toast.LENGTH_SHORT).show();
+
+            Map<String, Object>data = new HashMap<>();
+            data.put(RegisterActivity.getUsername(), skinsList);
+            firestore.collection("users").document(RegisterActivity.getUsername()).set(data)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                               @Override
+                                               public void onComplete(@NonNull Task<Void> task) {
+                                                   if(progressDialog.isShowing())
+                                                       progressDialog.dismiss();
+                                                   if(task.isSuccessful()){
+                                                       startRecyclerView(skinsList);
+                                                       Toast.makeText(getContext(), "Bought Skin", Toast.LENGTH_SHORT).show();
+                                                   }
+                                                   else {
+                                                       Toast.makeText(getContext(), "error updating data", Toast.LENGTH_SHORT).show();
+                                                   }
+                                               }
+                                           });
+        }
+        else Toast.makeText(getContext(), "Failed! cant buy skin", Toast.LENGTH_SHORT).show();
+    }
+
+//    public static void buySkin(View view){
+//
+//        boolean canBuy = db.buySkin(RegisterActivity.getUsername(), view.get);
+//        if(canBuy)
+//
+//    }
 
 }

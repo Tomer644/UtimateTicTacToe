@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,7 +18,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     Button btnBuy;
     CardView cardview;
 
-    public MyViewHolder(@NonNull View itemView) {
+    public MyViewHolder(@NonNull View itemView, ShopInterface shopInterface) {
         super(itemView);
         skinImg = itemView.findViewById(R.id.imageview);
         skinId = itemView.findViewById(R.id.skinId);
@@ -27,11 +28,17 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         skin_type = itemView.findViewById(R.id.skin_type);
         cardview = itemView.findViewById(R.id.cardview);
 
-        /*btnBuy.setOnClickListener(new View.OnClickListener() {
+        btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(shopInterface!=null){
+                    int pos = getAdapterPosition();
 
+                    if(pos != RecyclerView.NO_POSITION){
+                        shopInterface.onItemClick(pos);
+                    }
+                }
             }
-        });*/
+        });
     }
 }

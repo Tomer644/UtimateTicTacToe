@@ -14,20 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {//interface set onclick
 
+    private final ShopInterface shopInterface;
     Context context;
     List<Skin>skins;
 
-    public MyAdapter(Context context, List<Skin> skins) {
+    public MyAdapter(Context context, List<Skin> skins, ShopInterface shopInterface) {
         this.context = context;
         this.skins = skins;
+        this.shopInterface = shopInterface;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.skin_shop_view, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.skin_shop_view, parent, false), shopInterface);
     }
 
     @Override
