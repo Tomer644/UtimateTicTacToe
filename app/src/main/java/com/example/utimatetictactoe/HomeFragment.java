@@ -28,9 +28,9 @@ import com.google.android.material.navigation.NavigationBarView;
  * A simple {@link Fragment} subclass.
  * This is the home page of the app.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment{// implements View.OnClickListener {
 
-    ImageButton ibx, ibo;
+    static ImageButton ibx, ibo;
     Button play,btn_logout;
 
     @Override
@@ -41,8 +41,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ibx = view.findViewById(R.id.btn_x);
         ibo = view.findViewById(R.id.btn_o);
 
-        ibx.setOnClickListener(this);
-        ibo.setOnClickListener(this);
+        /*ibx.setOnClickListener(this);
+        ibo.setOnClickListener(this);*/
 
         play = view.findViewById(R.id.btnPlay);
         play.setOnClickListener(this::play);
@@ -58,21 +58,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
+    /*@Override
     public void onClick(@NonNull View view) {
         Bundle args = new Bundle();
         SkinsFragment fragment = new SkinsFragment();
-        if (view.equals(ibx)) {
-            args.putInt("pos", 0);
-            fragment.setArguments(args);
+        if(ShopFragment.isShopInit==true) {
+            if (view.equals(ibx)) {
+                args.putInt("pos", 1);
+                fragment.setArguments(args);
+            } else if (view.equals(ibo)) {
+                args.putInt("pos", 2);
+                fragment.setArguments(args);
+            }
         }
-        else if (view.equals(ibo)) {
-            args.putInt("pos", 2);
+        else{
+            args.putInt("pos", 0);
             fragment.setArguments(args);
         }
         MainActivity.bottomNavigationView.setSelectedItemId(R.id.shop);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-    }
+    }*/
 
 
     public void play(View view) {

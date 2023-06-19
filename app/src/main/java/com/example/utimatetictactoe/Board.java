@@ -3,6 +3,7 @@ package com.example.utimatetictactoe;
 //import static androidx.core.graphics.drawable.IconCompat.getResources;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -21,8 +22,10 @@ import org.jetbrains.annotations.Contract;
 
 public class Board {
     protected BoardButton[][] board;
-    protected int xSkinPath;
-    protected int oSkinPath;
+    /*protected int xSkinPath;
+    protected int oSkinPath;*/
+
+    protected Bitmap xLogo, oLogo;
     //protected boolean Xturn;
     protected int turnCount;
 
@@ -32,11 +35,24 @@ public class Board {
     protected boolean finished;
 
 
-    public Board(int xPath, int oPath) {
+//    public Board(int xPath, int oPath) {
+//        this.board = new BoardButton[3][3];
+//
+//        this.xSkinPath = xPath;
+//        this.oSkinPath = oPath;
+//        //this.Xturn = true;
+//        this.turnCount = 0;
+//        createButtons();
+//
+//        //this.boardWinner = '-';
+//        this.finished = false;
+//    }
+
+    public Board(Bitmap xLogo, Bitmap oLogo) {
         this.board = new BoardButton[3][3];
 
-        this.xSkinPath = xPath;
-        this.oSkinPath = oPath;
+        this.xLogo = xLogo;
+        this.oLogo = oLogo;
         //this.Xturn = true;
         this.turnCount = 0;
         createButtons();
@@ -72,11 +88,13 @@ public class Board {
         this.board[row][col].setPressed(true);
         if(xTurn){
             this.board[row][col].player = 'X';
-            view.setImageResource(this.xSkinPath);
+            view.setImageBitmap(this.xLogo);
+            //view.setImageResource(this.xSkinPath);
         }
         else{
             this.board[row][col].player = 'O';
-            view.setImageResource(this.oSkinPath);
+            view.setImageBitmap(this.oLogo);
+            //view.setImageResource(this.oSkinPath);
         }
         this.turnCount++;
 

@@ -22,14 +22,16 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class RetrivePfpFragment extends Fragment {
+public class RetrivePfpFragment extends Fragment implements ShopInterface{
 
-    private ImageView retrivedImage;
+
+    ImageView rtrnArrow;
     private StorageReference storageReference;
     int pfps_uploaded;
     int count;
@@ -55,11 +57,14 @@ public class RetrivePfpFragment extends Fragment {
         progressDialog.show();
 
         recyclerView = v.findViewById(R.id.pfpsRecyclerView);
+        rtrnArrow = v.findViewById(R.id.rtrnArrow2);
+        rtrnArrow.setOnClickListener(this::cancelUpload);
+
 //        layoutManager = new GridLayoutManager(getContext(), 3);
 //        recyclerView.setLayoutManager(layoutManager);
         //recyclerAdapter = new PhotosRecyclerAdapter(this, )
         //need to download all the pfps first into a bitmap list
-        //for i : 0 - pfpsuploaded (<=)
+        //for i : 0 - pfpsuploaded
 
         bitmapArrayList = new ArrayList<>();
         count = 0;
@@ -93,6 +98,11 @@ public class RetrivePfpFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        if(pfps_uploaded==0){
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+            Toast.makeText(getContext(), "no pics uploaded", Toast.LENGTH_SHORT).show();
+        }
 
 
         return v;
@@ -101,7 +111,32 @@ public class RetrivePfpFragment extends Fragment {
     private void startRecycler(ArrayList<Bitmap>list){
         layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new PhotosRecyclerAdapter(getContext(), list);
+        recyclerAdapter = new PhotosRecyclerAdapter(getContext(), list, new ShopInterface() {
+            @Override
+            public void onItemClick(int position) {
+                //ProfileFragment.pfp.setImageBitmap(list.get(position));
+                Bundle args = new Bundle();
+                ProfileFragment fragment = new ProfileFragment();
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                list.get(position).compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                args.putByteArray("image", byteArray);
+                fragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
+
+            }
+        });
         recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    public void cancelUpload(View view) {
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

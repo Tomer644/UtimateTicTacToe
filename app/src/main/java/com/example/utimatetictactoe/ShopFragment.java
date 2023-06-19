@@ -40,12 +40,14 @@ public class ShopFragment extends Fragment implements ShopInterface{ //implement
     ProgressDialog progressDialog;
     MyAdapter adapter;
 
-    List<Skin>skinsList;//skins object list
+    public static List<Skin>skinsList;//skins object list
 
     int count;
 
     public static Map<String, Bitmap>photos;//skins photos
     DBHelper db;
+
+    public static boolean isShopInit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class ShopFragment extends Fragment implements ShopInterface{ //implement
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-
+        isShopInit = false;
         /*List<Skin>xOwned = new ArrayList<>();
         List<Skin>oOwned = new ArrayList<>();*/
 
@@ -105,6 +107,7 @@ public class ShopFragment extends Fragment implements ShopInterface{ //implement
                                                 if (progressDialog.isShowing() && count == objectList.size() - 1) {
                                                     progressDialog.dismiss();
                                                     startRecyclerView(skinsList);
+                                                    isShopInit = true;
                                                 }
                                             }
                                             else{
@@ -197,6 +200,8 @@ public class ShopFragment extends Fragment implements ShopInterface{ //implement
                                                    if(task.isSuccessful()){
                                                        startRecyclerView(skinsList);
                                                        Toast.makeText(getContext(), "Bought Skin", Toast.LENGTH_SHORT).show();
+                                                       xSkinsFragment.inisialiseX();
+                                                       oSkinsFragment.inisialiseO();
                                                    }
                                                    else {
                                                        Toast.makeText(getContext(), "error updating data", Toast.LENGTH_SHORT).show();

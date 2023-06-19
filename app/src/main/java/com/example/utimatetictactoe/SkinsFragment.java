@@ -34,6 +34,9 @@ public class SkinsFragment extends Fragment {
         vpAdapter = new VpAdapter(this);
         viewPager2.setAdapter(vpAdapter);
 
+//        viewPager2.setCurrentItem(1);
+//        tabLayout.selectTab(tabLayout.getTabAt(1));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -59,13 +62,16 @@ public class SkinsFragment extends Fragment {
             }
         });
 
-        tabLayout.selectTab(tabLayout.getTabAt(1));
+        //tabLayout.selectTab(tabLayout.getTabAt(1));
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             int pos = bundle.getInt("pos", -1);
-            if (pos!=-1)
+            if (pos!=-1){
+                viewPager2.setCurrentItem(1);
+                tabLayout.selectTab(tabLayout.getTabAt(1));
                 selectSkinPage(pos);
+            }
         }
 
         return view;

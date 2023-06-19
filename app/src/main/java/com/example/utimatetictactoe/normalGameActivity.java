@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -34,7 +37,21 @@ public class normalGameActivity extends AppCompatActivity{
 
         get = getIntent();
 
-        board = new Board(R.drawable.x, R.drawable.o);
+        Bitmap xicon, oicon;
+        if(xSkinsFragment.isXinit){
+            xicon = xSkinsFragment.xBtm;
+        }
+        else{
+            xicon = BitmapFactory.decodeResource(getResources(), R.drawable.x);//xicon = R.drawable.x;
+        }
+
+        if(oSkinsFragment.isOinit){
+            oicon = oSkinsFragment.oBtm;
+        }
+        else {
+            oicon = BitmapFactory.decodeResource(getResources(), R.drawable.o);
+        }
+        board = new Board(xicon, oicon);
 
         winner = findViewById(R.id.winnerImg);
         tvWinner = findViewById(R.id.tvWinner);
@@ -96,9 +113,11 @@ public class normalGameActivity extends AppCompatActivity{
         if(chWin!='-'){
             board.setAllPressed();
             if(chWin=='X')
-                winner.setImageResource(board.xSkinPath);
+                winner.setImageBitmap(board.xLogo);
+                //winner.setImageResource(board.xSkinPath);
             else
-                winner.setImageResource(board.oSkinPath);
+                winner.setImageBitmap(board.oLogo);
+                //winner.setImageResource(board.oSkinPath);
             //animation - like the splash screen
             tvWinner.setText("The winner is "+chWin+" !");
 

@@ -16,9 +16,9 @@ public class VpAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new xSkinsFragment();
-            case 1:
                 return new ShopFragment();
+            case 1:
+                return new xSkinsFragment();
             case 2:
                 return new oSkinsFragment();
         }

@@ -70,7 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
                 //map.put("username", user);
                 //map.put("skins", skins);
 
-                if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
+                //if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))
+                if (user.equals("") || pass.equals("") || repass.equals(""))
                     Toast.makeText(RegisterActivity.this,"All fields Required",Toast.LENGTH_SHORT).show();
                 else {
                     if (pass.equals(repass)){

@@ -1,8 +1,11 @@
 package com.example.utimatetictactoe;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -62,11 +65,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         tvSkinsOwn = v.findViewById(R.id.tvSkinsOwn);
 
         pfp = v.findViewById(R.id.imageViewPfp);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            byte[]icon = bundle.getByteArray("image");
+            Bitmap pic = BitmapFactory.decodeByteArray(icon, 0, icon.length);
+            pfp.setImageBitmap(pic);
+        }
         pfp.setOnClickListener(this);
         add = v.findViewById(R.id.btnUploadImg);
         add.setOnClickListener(this);//::addImage);
 
-        DBHelper db = new DBHelper(this.getContext());
+        db = new DBHelper(this.getContext());
 
         ArrayList<Integer>data= db.getUserData(RegisterActivity.getUsername());
 
@@ -77,7 +87,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         tvSkinsOwn.setText(tvSkinsOwn.getText()+""+data.get(4));
 
         pfps_uploaded = data.get(5);
-        Toast.makeText(getContext(), pfps_uploaded+"", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), pfps_uploaded+"", Toast.LENGTH_SHORT).show();
         return v;
     }
 

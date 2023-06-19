@@ -121,7 +121,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener {
         //if tie then 0
 
         DBHelper db = new DBHelper(getActivity());
-        Toast.makeText(getContext(),"username: "+RegisterActivity.getUsername(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"username: "+RegisterActivity.getUsername(), Toast.LENGTH_SHORT).show();
 
         int result = db.updateData(RegisterActivity.getUsername(),trophies, pWon);
         if(result != -1)

@@ -45,7 +45,7 @@ public class UploadImageFragment extends Fragment {
         if (bundle != null) {
             pfps_uploaded = bundle.getInt("pfps_uploaded", 1);
         }
-        Toast.makeText(getActivity(), "pfp_" + pfps_uploaded, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "pfp_" + pfps_uploaded, Toast.LENGTH_SHORT).show();
 
         selectImg = v.findViewById(R.id.selectImgBtn);
         uploadImg = v.findViewById(R.id.uploadImgBtn);
@@ -74,7 +74,7 @@ public class UploadImageFragment extends Fragment {
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            Toast.makeText(getActivity(), "_pfp_" + pfps_uploaded, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "_pfp_" + pfps_uploaded, Toast.LENGTH_SHORT).show();
 
             //String fileName = format.format(now);
             String fileName = RegisterActivity.getUsername()+"_pfp_" + pfps_uploaded + ".jpeg";

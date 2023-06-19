@@ -1,6 +1,7 @@
 package com.example.utimatetictactoe;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 
@@ -17,19 +18,32 @@ public class UltBoard {
     public static final int ALL_BOARDS_ALLOWED = -1;
 
 
-    public UltBoard(int xPath, int oPath){
+    public UltBoard(Bitmap xLogo, Bitmap oLogo){
         this.bigBoard = new Board[3][3];
         this.nextBoard = ALL_BOARDS_ALLOWED;
         this.boardsFullCount = 0;
         this.xTurn = true;
-        createBoards(xPath, oPath);
+        createBoards(xLogo, oLogo);
     }
 
-    private void createBoards(int xPath, int oPath){
+//    private void createBoards(int xPath, int oPath){
+//        int count = 0;
+//        for (int i = 0; i<this.bigBoard.length; i++){
+//            for (int j = 0; j<this.bigBoard[0].length; j++){
+//                this.bigBoard[i][j] = new Board(xPath, oPath);
+//                this.bigBoard[i][j].boardId = count;
+//                count++;
+//            }
+//        }
+//
+//
+//    }
+
+    private void createBoards(Bitmap xLogo, Bitmap oLogo){
         int count = 0;
         for (int i = 0; i<this.bigBoard.length; i++){
             for (int j = 0; j<this.bigBoard[0].length; j++){
-                this.bigBoard[i][j] = new Board(xPath, oPath);
+                this.bigBoard[i][j] = new Board(xLogo, oLogo);
                 this.bigBoard[i][j].boardId = count;
                 count++;
             }

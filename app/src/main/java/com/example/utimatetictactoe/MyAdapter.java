@@ -40,6 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {//interface s
             holder.textPrice.setText("Price:");
             holder.intPrice.setText(skins.get(position).getPrice()+"");
             holder.btnBuy.setText("Buy");
+            holder.btnBuy.setClickable(true);
         }
         else {
             holder.textPrice.setText("already owned");

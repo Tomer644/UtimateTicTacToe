@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -38,7 +40,22 @@ public class UltraGameActivity extends AppCompatActivity{
         get = getIntent();
         gridLayout = findViewById(R.id.grid_layout);
 
-        ultBoard = new UltBoard(R.drawable.x, R.drawable.o);
+        Bitmap xicon, oicon;
+        if(xSkinsFragment.isXinit){
+            xicon = xSkinsFragment.xBtm;
+        }
+        else{
+            xicon = BitmapFactory.decodeResource(getResources(), R.drawable.x);//xicon = R.drawable.x;
+        }
+
+        if(oSkinsFragment.isOinit){
+            oicon = oSkinsFragment.oBtm;
+        }
+        else {
+            oicon = BitmapFactory.decodeResource(getResources(), R.drawable.o);
+        }
+
+        ultBoard = new UltBoard(xicon, oicon);
         /*Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         //point.x = screen width, point.y = screen height
@@ -80,7 +97,7 @@ public class UltraGameActivity extends AppCompatActivity{
         //11 = grid, 12 = cell
         int id = img.getId();
         String strId = img.getResources().getResourceEntryName(id);
-        Toast.makeText(this, "id:"+strId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "id:"+strId, Toast.LENGTH_SHORT).show();
 
         int currentGrid = strId.charAt(11) - '0';
         if(ultBoard.nextBoard!=currentGrid && ultBoard.nextBoard!=ultBoard.ALL_BOARDS_ALLOWED){ //cant be full cuz we checked that last turn
@@ -167,11 +184,13 @@ public class UltraGameActivity extends AppCompatActivity{
             ImageView bg = new ImageView(this);
             ultBoard.bigBoard[bRow][bCol].setAllPressed();
             if (chWin == 'X') {
-                bg.setImageResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
+                bg.setImageBitmap(ultBoard.bigBoard[bRow][bCol].xLogo);
+                //bg.setImageResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
                 //wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].xSkinPath);
             }
             else {
-                bg.setImageResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
+                bg.setImageBitmap(ultBoard.bigBoard[bRow][bCol].oLogo);
+                //bg.setImageResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
                 //wGrid.setBackgroundResource(ultBoard.bigBoard[bRow][bCol].oSkinPath);
             }
             wGrid.removeAllViews();
