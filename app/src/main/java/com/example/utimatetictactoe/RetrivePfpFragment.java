@@ -41,6 +41,8 @@ public class RetrivePfpFragment extends Fragment implements ShopInterface{
     PhotosRecyclerAdapter recyclerAdapter;
     ArrayList<Bitmap>bitmapArrayList;
 
+    public static Bitmap bitmappfp;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -115,15 +117,16 @@ public class RetrivePfpFragment extends Fragment implements ShopInterface{
             @Override
             public void onItemClick(int position) {
                 //ProfileFragment.pfp.setImageBitmap(list.get(position));
-                Bundle args = new Bundle();
-                ProfileFragment fragment = new ProfileFragment();
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                list.get(position).compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                args.putByteArray("image", byteArray);
-                fragment.setArguments(args);
+//                Bundle args = new Bundle();
+//                ProfileFragment fragment = new ProfileFragment();
+//
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                list.get(position).compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//                byte[] byteArray = stream.toByteArray();
+//
+//                args.putByteArray("image", byteArray);
+//                fragment.setArguments(args);
+                bitmappfp = list.get(position);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
             }

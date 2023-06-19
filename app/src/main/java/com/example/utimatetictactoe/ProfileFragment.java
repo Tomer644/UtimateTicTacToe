@@ -66,12 +66,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         pfp = v.findViewById(R.id.imageViewPfp);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            byte[]icon = bundle.getByteArray("image");
-            Bitmap pic = BitmapFactory.decodeByteArray(icon, 0, icon.length);
-            pfp.setImageBitmap(pic);
-        }
+        Bitmap tempBitmap = RetrivePfpFragment.bitmappfp;
+        if(tempBitmap != null)
+            pfp.setImageBitmap(tempBitmap);
+
+//        Bundle bundle = this.getArguments();
+//        if (bundle != null) {
+//            byte[]icon = bundle.getByteArray("image");
+//            Bitmap pic = BitmapFactory.decodeByteArray(icon, 0, icon.length);
+//            pfp.setImageBitmap(pic);
+//        }
         pfp.setOnClickListener(this);
         add = v.findViewById(R.id.btnUploadImg);
         add.setOnClickListener(this);//::addImage);
